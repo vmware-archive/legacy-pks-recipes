@@ -4,22 +4,21 @@ Getting Weblogic installed on PKS from scratch using an Operator.
 ## Creating and connecting to your kuberentes cluster.
 
 You'll need a to login to a PKS installation to create a kuberentes cluster. Please make sure you have the correct port for logging in, your login command should look similar to:
- pks login -a https://api.pks.haas-149.pez.pivotal.io:9021 -k -u USERNAME -p PASSWORD
+ `pks login -a https://api.pks.haas-149.pez.pivotal.io:9021 -k -u USERNAME -p PASSWORD`
 
 Once you've logged in you can create a Kuberentes cluster with:
-pks create-cluster operator-kube-cluster --external-hostname operator-kube-cluster.pks.haas-149.pez.pivotal.io --plan small --num-nodes 3
+`pks create-cluster operator-kube-cluster --external-hostname operator-kube-cluster.pks.haas-149.pez.pivotal.io --plan small --num-nodes 3`
 
-You'll need to have give the login/connection information to the kubectl CLI so it can use them in subsequent requests, PKS has a nice command to do this automatically for you: pks get-credentials operator-kube-cluster
-Now you need to set your machine to use the credentials you've just pulled down. To do so, run the command: kubectl config use-context operator-kube-cluster
+You'll need to have give the login/connection information to the kubectl CLI so it can use them in subsequent requests, PKS has a nice command to do this automatically for you: 
+`pks get-credentials operator-kube-cluster`
+
+Now you need to set your machine to use the credentials you've just pulled down. To do so, run the command: 
+`kubectl config use-context operator-kube-cluster`
 
 ## Setup your hosts file so your machine can connect to Kuberenetes.
-   - Often times kubernetes can't setup the DNS entries for the cluster you've created. So the easiest way to get things working \
-is to edit your /etc/hosts file.
-   - First we need to find the cluster ip address you can do this with the `pks cluster operator-kube-cluster` command it's output will show b\
-oth the `Kubernetes Master Host` and the `Kubernetes Master IP(s)`.
-   - You then need create an entry in your /etc/hosts files that does this mapping for you, for requests using the kubectl comman\
-d to work.
-   - If your output was:
+   Often times kubernetes can't setup the DNS entries for the cluster you've created. So the easiest way to get things working is to edit your /etc/hosts file. First we need to find the cluster ip address you can do this with 
+   `pks cluster operator-kube-cluster` 
+   This commands output will show both the `Kubernetes Master Host` and the `Kubernetes Master IP(s)`.  You then need create an entry in your /etc/hosts files that does this mapping for you, for requests using the kubectl command to work.  If your output was:
 ```
 Name:                     wls-test
 Plan Name:                small
@@ -32,7 +31,7 @@ Kubernetes Master Port:   8443
 Worker Instances:         3
 Kubernetes Master IP(s):  10.195.2.161
 ```
-   you need to add a line that looks like `10.195.2.161    wls-test.pks.haas-149.pez.pivotal.io` do your /etc/hosts file.
+you need to add a line that looks like `10.195.2.161    wls-test.pks.haas-149.pez.pivotal.io` do your /etc/hosts file.
 
 
 ## Verify your connection to the Kuberentes Cluster
