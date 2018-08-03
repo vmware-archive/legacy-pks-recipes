@@ -27,7 +27,7 @@ nfs       Bound     nfs       10Gi       RWX                           11s
 
 ```
 NAME                                 READY     STATUS              RESTARTS   AGE
-nginx                                0/1       ContainerCreating   0          8m
+nginx                                0/1       Running             0          8m
 weblogic-operator-7759668968-6jw86   1/1       Running             0          22h
 ```
 
@@ -37,3 +37,40 @@ At this point I'd like to add another tool into your arsenal for debugging what'
 
 
 Now we can log into the pod we just created and make sure that there an appropriately attached storage entry.
+`kubectl exec -it nginx /bin/bash --`  the `mount` command should have a line in it's output for the persistent volume.
+127.0.0.1:/mnt/weblogic-pool on /mnt/weblogic-pool type nfs (rw,relatime,vers=3,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=127.0.0.1,mountvers=3,mountport=1005,mountproto=udp,local_lock=none,addr=127.0.0.1)
+
+If you navigate to that directory you should be able to create/delete/read files.
+
+#Modifying our weblogic domain creation input scripts.
+Next we're going to modify the parameters file that we use to initialize our weblogic domain, I'd recommend copying the initial one so that way you easily refer to the defaults.
+
+`cp create-weblogic-domain-inputs.yaml create-weblogic-domain-inputs-voorhees.yaml`
+
+Then we need to change some values for the `create-weblogic-domain-inputs-voorhees.yaml` script. Uncomment the `#domainUID: domain1` line, you can change the UID if you like, it just needs to be unique within your kuberenetes cluster.
+
+For our VSphere hosted VM's we can't utilize HOST_PATH storage, since they might be allocated across VM's so instead we need to use the NFS share mentioned above. Change the line
+
+`weblogicDomainStorageType: HOST_PATH` to `weblogicDomainStorageType: NFS`
+
+you also need to change the field `weblogicDomainStorageNFSServer` to refer to the location of your NFS server:
+
+`weblogicDomainStorageNFSServer: 127.0.0.1`
+
+The Persistent Volume Claim needs to know what share the NFS server needs to mount as, change the weblogicDomainStoragePath to refer to the NFS share.
+
+`weblogicDomainStoragePath: /mnt/weblogic-pool`
+
+For this example we're going to enable the T3 protocol port, it will not be available outside of the kuberenetes cluster. So I'll set the `t3PublicAddress` to the address reported by the `kubectl cluster-info` command.
+t3PublicAddress: operator-kube-cluster.pks.pivotal.io
+
+Finally, I'll set these fields to true:
+
+`exposeAdminT3Channel: true`
+`exposeAdminNodePort: true`
+
+Next we need to create an output directory that the creation script will use to store the intermediate files that it generates using the configuration we just filled out that it then uses as input into the operator.
+`mkdir ../operator-output`
+
+with these changes in place we're ready to create the operator, issue the command:
+`./create-weblogic-domain.sh -i create-weblogic-domain-inputs-voorhees.yaml -o ../operator-output`
