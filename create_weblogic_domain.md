@@ -64,7 +64,7 @@ The Persistent Volume Claim needs to know what share the NFS server needs to mou
 For this example we're going to enable the T3 protocol port, it will not be available outside of the kuberenetes cluster. So I'll set the `t3PublicAddress` to the address reported by the `kubectl cluster-info` command.
 t3PublicAddress: operator-kube-cluster.pks.pivotal.io
 
-Finally, I'll set these fields to true:
+I'll set these fields to true:
 
 `exposeAdminT3Channel: true`
 `exposeAdminNodePort: true`
@@ -72,5 +72,10 @@ Finally, I'll set these fields to true:
 Next we need to create an output directory that the creation script will use to store the intermediate files that it generates using the configuration we just filled out that it then uses as input into the operator.
 `mkdir ../operator-output`
 
+The final thing to do before we can create our operator is to create a kuberenetes secret that contains the admin password for our weblogic domain.
+kubectl create secret generic domain1-weblogic-credentials --from-literal=username=weblogic --from-literal=password=welcome1
+
 with these changes in place we're ready to create the operator, issue the command:
 `./create-weblogic-domain.sh -i create-weblogic-domain-inputs-voorhees.yaml -o ../operator-output`
+
+Due to the networking configuration of within pivotal, even though we've created a nodePort service for the admin web service of the weblogic domain, we're still unable to access it. To resolve this issue, you can create an additional service. Use the create-weblogic-admin-service.yaml file as a template and then issue the `kubectl create -f create-weblogic-admin-service.yaml` command.
