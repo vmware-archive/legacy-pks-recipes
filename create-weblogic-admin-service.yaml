@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: "weblogic-custom-service"
+  labels:
+    app: "weblogic-custom-service"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 7001
+  selector:
+    weblogic.createdByOperator: "true"
+    weblogic.domainUID: "domain1"
+    weblogic.serverName: "admin-server"
