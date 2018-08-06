@@ -45,7 +45,7 @@ monitoring-influxdb is running at https://operator-kube-cluster.pks.haas-149.pez
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
 
-## On Install the Weblogic Operator into our Kuberentes Cluster
+## Install the Weblogic Operator into our Kuberentes Cluster
 Now we are going to install the Oracle Weblogic Operator into our Kuberentes cluster. This will create a custom resource in Kuberentes that manages the weblogic domain (cluster).
 Oracle provides instructions at:
 https://blogs.oracle.com/developers/announcing-oracle-weblogic-server-kuberentes-operator
@@ -60,12 +60,16 @@ First we're going to clone the Operator sources:
 
 Make sure you have java 1.8 set as your JAVA_HOME, I recommend using SDKMAN or JENV for this.
 
-`build the java source:`
+### build the java source:
+
 `mvn clean install`
+
+### build the docker image:
 
 Next we need to take the operator source code we compiled in wrap it in a docker image. Since the base image file for this an Oracle image you need to create a Docker account and log into the docker store and accept the Oracle terms for the base image. Do so here: https://store.docker.com/images/oracle-serverjre-8
 
 `docker login`
+
 `docker build -t weblogic-kubernetes-operator:some-tag --no-cache=true .`
 
 6.) Now we want to push the image to a docker repository where our Kuberentes cluster will be able to access it. Since we haven't added anything secret to our Image this example will just be hosting it in a personal public repository on Dockerhub. Often times you may choose to use a private docker repository instead, please see the instructions linked above for some more details on that configuration. Issue the command `docker images` to look at the image you just built:
@@ -86,9 +90,12 @@ Then push it to Dockerhub:
 ## Seting up our configuration files to install the operator into our Kuberenetes cluster.
  Now we need to modify to prepare the secrets and operator scripts to be able to install the operator into our cluster.
 
+You will need to create a namespace for the operator to be initialized into:
+`kubectl create namespace weblogic-operator`
+
 Create a kuberentes secret that contains your dockerhub credentials, so that kuberentes will be able to fetch the image you uploaded:
 
-`kubectl create secret docker-registry wsvoorhees-docker-creds --docker-username=wsvoorhees --docker-password=SECRET --docker-email=will.voorhees@gmail.com`
+`kubectl create secret docker-registry wsvoorhees-docker-creds --docker-username=wsvoorhees --docker-password=SECRET --docker-email=will.voorhees@gmail.com --namespace weblogic-operator`
 
 
 Under the kuerbenetes sub-directory of the file you cloned copy the operator inputs file for customization.
@@ -98,9 +105,6 @@ Under the kuerbenetes sub-directory of the file you cloned copy the operator inp
 
  You also need to change the `weblogicOperatorImagePullSecretName` field to refer to the secret you created above for your dockerhub credentials in this case the secrets name is: `wsvoorhees-docker-creds`
 
- You will need to create a namespace for the operator to be initialized into:
- `kubectl create namespace weblogic-operator`
-
  Create a folder for the output of the operator installation command to be captured.
 `mkdir create-operator-output/`
 
@@ -109,7 +113,7 @@ Then we finally can create the operator in our cluster.
 `./create-weblogic-operator.sh -i create-operator-voorhees-inputs.yaml -o create-operator-output/`
 
 You can verify that the operator has created the requisite resources within weblogic with this command
-`kubectl -n default get all`
+`kubectl -n weblogic-operator get all`
 
 You should see output similar to this:
 
@@ -129,7 +133,7 @@ replicaset.apps/weblogic-operator-7759668968   1         1         1         2m
 ```
 
 Logs from the operator are available by querying the pod listed above:
-`kubectl -n default logs  weblogic-operator-7759668968-6jw86`
+`kubectl -n weblogic-operator logs  weblogic-operator-7759668968-6jw86`
 
 Finally you can see that custom resouce definition has been installed into your kuberentes cluster:
 `kubectl get crd`
