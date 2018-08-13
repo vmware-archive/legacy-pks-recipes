@@ -138,7 +138,13 @@ Logs from the operator are available by querying the pod listed above:
 Finally you can see that custom resouce definition has been installed into your kuberentes cluster:
 `kubectl get crd`
 
-```Outputs:
+```
+Outputs:
 
 NAME                      AGE
-domains.weblogic.oracle   4m```
+domains.weblogic.oracle   4m
+```
+
+## Next step - deploy the Weblogic domain
+
+You can now proceed to the next steps to deploy the actual Weblogic domain - https://github.com/pivotal-cf/weblogic-k8s-operator-recipe/blob/master/create_weblogic_domain.md
