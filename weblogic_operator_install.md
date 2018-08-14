@@ -54,40 +54,7 @@ but in trying to follow them I ran into a number of omissions and problems, The 
 Additionally the above instructions reference Youtube videos for explaining some of the steps, but I found the documentation in the Repository to be more up to date:
 https://github.com/oracle/weblogic-kubernetes-operator/blob/master/site/installation.md
 
-## Building and uploading to Dockerhub the operator docker image
-First we're going to clone the Operator sources:
-`git clone https://github.com/oracle/weblogic-kubernetes-operator`
-
-Make sure you have java 1.8 set as your JAVA_HOME, I recommend using SDKMAN or JENV for this.
-
-### build the java source:
-
-`mvn clean install`
-
-### build the docker image:
-
-Next we need to take the operator source code we compiled in wrap it in a docker image. Since the base image file for this an Oracle image you need to create a Docker account and log into the docker store and accept the Oracle terms for the base image. Do so here: https://store.docker.com/images/oracle-serverjre-8
-
-`docker login`
-
-`docker build -t weblogic-kubernetes-operator:some-tag --no-cache=true .`
-
-6.) Now we want to push the image to a docker repository where our Kuberentes cluster will be able to access it. Since we haven't added anything secret to our Image this example will just be hosting it in a personal public repository on Dockerhub. Often times you may choose to use a private docker repository instead, please see the instructions linked above for some more details on that configuration. Issue the command `docker images` to look at the image you just built:
-```
-docker images
-REPOSITORY                                     TAG                  IMAGE ID            CREATED             SIZE
-weblogic-kubernetes-operator                   some-tag             ef74069e7168        22 minutes ago      317MB
-```
-Create a new tag for the Docker image we just built that helps docker know where to upload it to Dockerhub.
-
-`docker tag ef74069e7168 wsvoorhees/weblogic-kubernetes-operator:first-try`
-
-Then push it to Dockerhub:
-
-`docker push wsvoorhees/weblogic-kubernetes-operator:first-try`
-
-
-## Seting up our configuration files to install the operator into our Kuberenetes cluster.
+### Seting up our configuration files to install the operator into our Kuberenetes cluster.
  Now we need to modify to prepare the secrets and operator scripts to be able to install the operator into our cluster.
 
 You will need to create a namespace for the operator to be initialized into:
@@ -101,14 +68,14 @@ Create a kuberentes secret that contains your dockerhub credentials, so that kub
 Under the kuerbenetes sub-directory of the file you cloned copy the operator inputs file for customization.
 ` cp create-weblogic-operator-inputs.yaml create-operator-voorhees-inputs.yaml`
 
- Change the `weblogicOperatorImage` field to refer to the tagged image you added to the Docker hub above, in this case that is wsvoorhees/weblogic-kubernetes-operator:first-try.
+ Change the `weblogicOperatorImage` to `oracle/weblogic-kubernetes-operator:1.0`
 
  You also need to change the `weblogicOperatorImagePullSecretName` field to refer to the secret you created above for your dockerhub credentials in this case the secrets name is: `wsvoorhees-docker-creds`
 
  Create a folder for the output of the operator installation command to be captured.
 `mkdir create-operator-output/`
 
-## Installing and Verifying the Operator
+### Installing and Verifying the Operator
 Then we finally can create the operator in our cluster.
 `./create-weblogic-operator.sh -i create-operator-voorhees-inputs.yaml -o create-operator-output/`
 
