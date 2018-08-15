@@ -65,19 +65,25 @@ Create a kuberentes secret that contains your dockerhub credentials, so that kub
 `kubectl create secret docker-registry wsvoorhees-docker-creds --docker-username=wsvoorhees --docker-password=SECRET --docker-email=will.voorhees@gmail.com --namespace weblogic-operator`
 
 
-Under the kuerbenetes sub-directory of the file you cloned copy the operator inputs file for customization.
-` cp create-weblogic-operator-inputs.yaml create-operator-voorhees-inputs.yaml`
+Under the kubernetes sub-directory of the file you cloned copy the operator inputs file for customization.
+` cp create-weblogic-operator-inputs.yaml create-weblogic-operator-inputs-voorhees.yaml`
 
  Change the `weblogicOperatorImage` to `oracle/weblogic-kubernetes-operator:1.0`
 
  You also need to change the `weblogicOperatorImagePullSecretName` field to refer to the secret you created above for your dockerhub credentials in this case the secrets name is: `wsvoorhees-docker-creds`
+
+ The Kubernetes namespaces where Weblogic domains are expected to be created will need to be listed:
+
+ ```
+ targetNamespaces: weblogic-domain,default
+ ```
 
  Create a folder for the output of the operator installation command to be captured.
 `mkdir create-operator-output/`
 
 ### Installing and Verifying the Operator
 Then we finally can create the operator in our cluster.
-`./create-weblogic-operator.sh -i create-operator-voorhees-inputs.yaml -o create-operator-output/`
+`./create-weblogic-operator.sh -i create-weblogic-operator-inputs-voorhees.yaml -o create-operator-output/`
 
 You can verify that the operator has created the requisite resources within weblogic with this command
 `kubectl -n weblogic-operator get all`
