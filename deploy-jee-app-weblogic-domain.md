@@ -113,3 +113,20 @@ Move to the "Control" and start the app:
 
 ### Test the application
 
+Using the following command, get the ip of the load balancer on top of the management servers:
+
+```
+kubectl get services -n weblogic-domain
+```
+
+![Testing-loadbalancer ip](./images/TestingJEE-Loadbalancer.png)
+
+In the image above, the ip is `10.195.52.160`
+
+Using CURL, try the following endpoint:
+
+```
+curl -XGET 'http://10.195.52.160/blog-root/resources/api/post/list'
+```
+
+If everything is working, a json output shoud show up at this point.
