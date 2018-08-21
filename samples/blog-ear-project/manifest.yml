@@ -1,0 +1,11 @@
+---
+applications:
+  - name: blog-ear
+    path: blog-ear/target/blog-ear.ear
+    memory: 1G
+
+# buildpack: https://github.com/cloudfoundry-community/tomee-buildpack
+#buildpack: tomee_offline
+buildpack: https://github.com/cloudfoundry-community/tomee-buildpack
+#env:
+#  JBP_CONFIG_TOMEE: "{tomee: {external_configuration_enabled: true}, resource_configuration: { repository_root: \"http://tomee-resources.cfapps.io/tomee-resource-configuration\" }}"

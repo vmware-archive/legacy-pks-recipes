@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>blog-ear-parent</artifactId>
+    <groupId>com.pivotalservices</groupId>
+    <version>1.0</version>
+    <relativePath>../blog-ear-parent/pom.xml</relativePath>
+  </parent>
+  <packaging>war</packaging>
+
+  <artifactId>blog-war</artifactId>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <tomee.version>7.0.3</tomee.version>
+    <version.openjpa>2.4.0</version.openjpa>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>apache-m2-snapshot</id>
+      <name>Apache Snapshot Repository</name>
+      <url>https://repository.apache.org/content/groups/snapshots</url>
+    </repository>
+    <repository>
+      <id>tomcat-m2-repo</id>
+      <name>Tomcat Dev Repository</name>
+      <url>http://tomcat.apache.org/dev/dist/m2-repository/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache-m2-snapshot</id>
+      <name>Apache Snapshot Repository</name>
+      <url>https://repository.apache.org/content/groups/snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.pivotalservices</groupId>
+      <artifactId>blog-ejb-api</artifactId>
+      <version>1.0</version>
+
+      <!-- This is unnecessary but IntelliJ ignores skinnyWars=true.
+          https://youtrack.jetbrains.com/issue/IDEA-97324 -->
+      <scope>provided</scope>
+
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>tomee-embedded</artifactId>
+      <version>${tomee.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>openejb-cxf-rs</artifactId>
+      <version>${tomee.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>tomee-jaxrs</artifactId>
+      <version>${tomee.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>ziplock</artifactId>
+      <version>${tomee.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!--
+  This section allows you to configure where to publish libraries for sharing.
+  It is not required and may be deleted.  For more information see:
+  http://maven.apache.org/plugins/maven-deploy-plugin/
+  -->
+  <distributionManagement>
+    <repository>
+      <id>local-release-repo</id>
+      <url>file://${project.build.outputDirectory}/repo/</url>
+    </repository>
+    <snapshotRepository>
+      <id>local-snapshot-repo</id>
+      <url>file://${project.build.outputDirectory}/repo/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
