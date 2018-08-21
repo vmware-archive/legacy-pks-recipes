@@ -5,14 +5,12 @@ a Weblogic domain that has been created using these [steps](https://github.com/p
 
 The application represents a simple Blog domain and provides REST interface for managing Users, posts, comments.
 
-## Steps
-
-### Preparing the Application
-#### Clone a sample Application
+## Preparing the Application
+### Clone a sample Application
 
 The sample project is called `blog-ear-project` and it is available in the samples folder of [this repo](https://github.com/pivotal-cf/weblogic-k8s-operator-recipe)
 
-#### Build the project
+### Build the project
 
 Build the project using the following command:
 
@@ -23,7 +21,7 @@ cd samples/blog-ear-project
 
 The package to be deployed will get created in the blog-ear-project/blog-ear/target/blog-ear.ear file.
 
-### Installing the Database
+## Installing the Database
 
 Create the persistent volume for the database with an accessmode of `ReadWriteOnce`. Modify the `mysql-pv-sample.yml` file for the right values in the environment and create the persistent volume
 
@@ -42,7 +40,7 @@ Once tiller is in place, run the following command to deploy mysql:
 helm install --name blog-db -f mysql-values.yml stable/mysql
 ```
 
-### Test the database
+## Test the database
 
 A sample pod with ubuntu installed in it can be deployed the following way and used for testing the mysql database:
 
@@ -59,7 +57,7 @@ mysql -h blog-db-mysql -u bloguser -D blogdb --password=blogpassword
 show tables;
 ```
 
-### Create a JNDI Datasource
+## Create a JNDI Datasource
 
 Using the admin console of the installed Weblogic domain
 
@@ -84,7 +82,7 @@ Activate the datasource on all nodes of the cluster
 
 ![All Nodes](./images/Datasource-screen6-TargetAll.png)
 
-### Deploy the Application
+## Deploy the Application
 
 On the Admin Console, click on Deployments
 
@@ -111,7 +109,7 @@ Move to the "Control" and start the app:
 
 ![Deployments - Start App](./images/Apps-Deployment-screen5.png)
 
-### Test the application
+## Test the application
 
 Using the following command, get the ip of the load balancer on top of the management servers:
 
