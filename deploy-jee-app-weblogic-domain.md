@@ -32,7 +32,10 @@ kubectl apply -f mysql-pv-sample.yml
 
 [Helm Charts](https://helm.sh/) will be used for deploying the database.
 
-Follow the instructions [here](https://docs.helm.sh/using_helm) to install helm chart and tiller. `helm` is a client side utility and `tiller` is the server side counterpart orchestrating a deploy
+`Helm` is a client side utility and `tiller` is the server side counterpart orchestrating a deploy
+
+Follow the instructions [here](https://docs.helm.sh/using_helm) to install helm chart. PKS requires a service account for tiller, the backend component of Helm chart, for right permissions to access Kubernetes API, the instructions to setup this account is [here](https://docs.pivotal.io/runtimes/pks/1-1/configure-tiller-helm.html)
+
 
 Once tiller is in place, run the following command to deploy mysql:
 
