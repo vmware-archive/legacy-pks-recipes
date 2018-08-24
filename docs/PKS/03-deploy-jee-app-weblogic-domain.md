@@ -1,7 +1,7 @@
 # Deploying a JEE app to Weblogic Domain
 
 The purpose of this document is to go over the details of deploying a JEE application with a database dependency to
-a Weblogic domain that has been created using these [steps](https://github.com/pivotal-cf/weblogic-k8s-operator-recipe/blob/master/create_weblogic_domain.md)
+a Weblogic domain that has been created using these [steps](../02-create_weblogic_domain)
 
 The application represents a simple Blog domain and provides REST interface for managing Users, posts, comments.
 
