@@ -1,4 +1,4 @@
-Creating a Weblogic Domain using the Operator.
+# Creating a Weblogic Domain using the Operator
 
 ## Prerequisite
 A prerequisite of creating a Weblogic domain using these steps is to first have the Operator installed into your Kuberentes cluster - There are instructions for doing so in the same folder.
@@ -21,9 +21,11 @@ After completing these steps you should verify that your claims and pods have co
 `kubectl get pvc`
 
 ```
+
 NAME      STATUS    VOLUME    CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 nfs       Bound     nfs       10Gi       RWX                           11s
- ```
+
+```
 
 `kubectl get pods`
 
@@ -39,7 +41,7 @@ At this point I'd like to add another tool into your arsenal for debugging what'
 
 Now we can log into the pod we just created and make sure that there an appropriately attached storage entry.
 `kubectl exec -it nginx /bin/bash --`  the `mount` command should have a line in it's output for the persistent volume.
-127.0.0.1:/mnt/weblogic-pool on /mnt/weblogic-pool type nfs (rw,relatime,vers=3,rsize=131072,wsize=131072,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=127.0.0.1,mountvers=3,mountport=1005,mountproto=udp,local_lock=none,addr=127.0.0.1)
+127.0.0.1:/mnt/weblogic-pool on /mnt/weblogic-pool type nfs ...
 
 If you navigate to that directory you should be able to create/delete/read files.
 

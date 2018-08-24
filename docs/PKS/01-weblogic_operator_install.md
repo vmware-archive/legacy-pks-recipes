@@ -1,4 +1,4 @@
-Getting Weblogic installed on PKS from scratch using an Operator.
+# Getting Weblogic installed on PKS from scratch using an Operator
 
 
 ## Creating and connecting to your kuberentes cluster.
