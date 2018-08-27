@@ -70,7 +70,7 @@ helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/rep
 helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f libertyOverrides.yml
 ```
 
-## Make the service visible for a enduser
+## Make the service visible to an end user
 
 The service deployed by the helm chart is a `NodePort`, for some reason nodeports are not visible to an enduser and need to be changed to a `LoadBalancer` type. 
 
