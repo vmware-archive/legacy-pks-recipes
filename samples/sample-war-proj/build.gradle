@@ -21,7 +21,7 @@ apply plugin: 'com.bmuschko.docker-remote-api'
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 group = 'com.example'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -29,9 +29,13 @@ repositories {
     jcenter()
 }
 
+springBoot {
+    buildInfo()
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
     testCompile('org.springframework.boot:spring-boot-starter-test') {
         exclude group: "junit", module: "junit"
     }
@@ -45,6 +49,10 @@ task createDockerImage(type: DockerBuildImage) {
     inputDir = file('.')
     dockerFile = project.file('Dockerfile')
     tags = ["bijukunjummen/sample-war-proj:" + project.version]
+}
+
+test {
+    useJUnitPlatform()
 }
 
 createDockerImage.dependsOn build

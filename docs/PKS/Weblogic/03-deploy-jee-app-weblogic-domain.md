@@ -26,7 +26,7 @@ The package to be deployed will get created in the blog-ear-project/blog-ear/tar
 Create the persistent volume for the database with an accessmode of `ReadWriteOnce`. Modify the `mysql-pv-sample.yml` file for the right values in the environment and create the persistent volume
 
 ```
-cd data-services
+cd spec/data-services
 kubectl apply -f mysql-pv-sample.yml
 ```
 
