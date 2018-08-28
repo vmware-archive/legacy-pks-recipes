@@ -111,3 +111,39 @@ If the deployment has completed, it can be tested using a curl command against t
 ```
 curl -k  -s https://10.195.52.152/sample-war-proj/ping
 ```
+
+## Upgrading application
+Assuming a new docker image with the application packaged in is available, 
+change the `specs/websphere/libertyOverrides.yml` with the details of the new image:
+
+```
+image:
+  repository: "bijukunjummen/sample-war-proj"
+  tag: "0.0.5-SNAPSHOT"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 40
+
+``` 
+
+and use helm to upgrade the chart:
+
+```
+helm upgrade liberty-boot-app ibm-charts/ibm-websphere-liberty -f libertyOverrides.yml
+```
+
+And check the status of the deploy:
+
+```
+helm ls --all liberty-boot-app
+```
+
+## Delete Application
+To completely delete the application, run the following command:
+
+```
+helm delete --purge liberty-boot-app
+```
