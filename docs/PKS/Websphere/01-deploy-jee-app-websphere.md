@@ -9,14 +9,14 @@ The source code for the sample is available with the PKS recipes [here](https://
 
 Clone the main project:
 
-```
+```bash
 git clone https://github.com/pivotal-cf/weblogic-k8s-operator-recipe
 # OR
 git clone git@github.com:pivotal-cf/weblogic-k8s-operator-recipe.git
 ```
 
 Move to the samples folder and edit the gradle.properties file with a tag with your [dockerhub](https://hub.docker.com/) username:
-```
+```yml
 dockerTag=my-dockerhub-username/sample-war-proj
 
 # eg. 
@@ -25,13 +25,13 @@ dockerTag=my-dockerhub-username/sample-war-proj
 
 Build the project and create a docker image:
 
-```
+```bash
 cd samples/sample-war-proj
 ./gradlew clean createDockerImage
 ```
 
 A docker image should have been successfully created at this point:
-```
+```bash
 $ docker images
 ...
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
@@ -40,7 +40,7 @@ bijukunjummen/sample-war-proj           0.0.4-SNAPSHOT      55fbfd30e5ca        
 ```
 
 Push this image to a docker repository:
-```
+```bash
 docker push bijukunjummen/sample-war-proj:0.0.4-SNAPSHOT
 ```
 
@@ -51,7 +51,7 @@ Create a yaml to provide some override values for the Webpshere Liberty helm cha
 
 A sample is available in `specs/websphere/libertyOverrides.yml` file:
 
-```
+```yml
 image:
   repository: "bijukunjummen/sample-war-proj"
   tag: "0.0.4-SNAPSHOT"
@@ -65,7 +65,7 @@ autoscaling:
 
 Install the helm chart:
 
-```
+```bash
 helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
 helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f libertyOverrides.yml
 ```
@@ -74,13 +74,13 @@ helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f liberty
 
 The service deployed by the helm chart is a `NodePort`, for some reason nodeports are not visible to an enduser and need to be changed to a `LoadBalancer` type. 
 
-```
+```bash
 kubectl edit service liberty-boot-app-ibm-web
 ```
 
 and change the port to 443 and service type to `LoadBalancer`:
 
-```
+```yml
 apiVersion: v1
 kind: Service
 ...
@@ -108,7 +108,7 @@ kubectl get service liberty-boot-app-ibm-web -o 'jsonpath={.status.loadBalancer.
 ## Test the app
 If the deployment has completed, it can be tested using a curl command against the load balancer ip:
 
-```
+```bash
 curl -k  -s https://10.195.52.152/sample-war-proj/ping
 ```
 
@@ -116,7 +116,7 @@ curl -k  -s https://10.195.52.152/sample-war-proj/ping
 Assuming a new docker image with the application packaged in is available, 
 change the `specs/websphere/libertyOverrides.yml` with the details of the new image:
 
-```
+```yml
 image:
   repository: "bijukunjummen/sample-war-proj"
   tag: "0.0.5-SNAPSHOT"
@@ -137,13 +137,13 @@ helm upgrade liberty-boot-app ibm-charts/ibm-websphere-liberty -f libertyOverrid
 
 And check the status of the deploy:
 
-```
+```bash
 helm ls --all liberty-boot-app
 ```
 
 ## Delete Application
 To completely delete the application, run the following command:
 
-```
+```bash
 helm delete --purge liberty-boot-app
 ```
