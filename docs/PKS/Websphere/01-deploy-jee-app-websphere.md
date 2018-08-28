@@ -15,7 +15,7 @@ git clone https://github.com/pivotal-cf/weblogic-k8s-operator-recipe
 git clone git@github.com:pivotal-cf/weblogic-k8s-operator-recipe.git
 ```
 
-Move to the samples folder and edit the gradle.properties file with a tag with your [dockerhub](https://hub.docker.com/) username:
+Move to the samples folder and edit the `sample-war-proj/gradle.properties` file with a tag with your [dockerhub](https://hub.docker.com/) username:
 ```yml
 dockerTag=my-dockerhub-username/sample-war-proj
 
@@ -23,7 +23,7 @@ dockerTag=my-dockerhub-username/sample-war-proj
 # dockerTag=bijukunjummen/sample-war-proj
 ```
 
-Build the project and create a docker image:
+Build the project and create a docker image, this image builds on `websphere-liberty:webProfile8`:
 
 ```bash
 cd samples/sample-war-proj
@@ -47,7 +47,7 @@ docker push bijukunjummen/sample-war-proj:0.0.4-SNAPSHOT
 
 ## Use Websphere Liberty Helm chart to deploy the application
 
-Create a yaml to provide some override values for the Webpshere Liberty helm chart. 
+Create a yaml to provide some override values for the [Websphere Liberty Helm Chart](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty/). 
 
 A sample is available in `specs/websphere/libertyOverrides.yml` file:
 
@@ -147,3 +147,10 @@ To completely delete the application, run the following command:
 ```bash
 helm delete --purge liberty-boot-app
 ```
+
+
+## References
+
+1. [docker base image](https://github.com/docker-library/docs/tree/master/websphere-liberty) for 
+IBM Websphere Liberty
+1.  [Websphere Liberty Helm Chart](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty/) 
