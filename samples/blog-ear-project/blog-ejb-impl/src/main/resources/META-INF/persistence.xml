@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                               http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+  <persistence-unit name="blog" transaction-type="JTA">
+    <jta-data-source>jdbc/blog</jta-data-source>
+    <non-jta-data-source>jdbc/blog-unmanaged</non-jta-data-source>
+    <class>com.pivotalservices.sample.model.User</class>
+    <class>com.pivotalservices.sample.model.Post</class>
+    <class>com.pivotalservices.sample.model.Comment</class>
+    <class>com.pivotalservices.sample.model.Model</class>
+    <class>com.pivotalservices.sample.model.DatedModel</class>
+    <properties>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

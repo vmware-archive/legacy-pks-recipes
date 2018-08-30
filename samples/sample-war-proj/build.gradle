@@ -1,0 +1,76 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.bmuschko:gradle-docker-plugin:3.3.2")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+group = 'com.example'
+version = '0.0.4-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+springBoot {
+    buildInfo()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: "junit", module: "junit"
+    }
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testCompile('io.projectreactor:reactor-test')
+    testCompile("org.junit.jupiter:junit-jupiter-api")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine")
+}
+
+task createDockerFile(type: Dockerfile) {
+    destFile = project.file('build/docker/Dockerfile')
+    from 'websphere-liberty:webProfile8'
+    copyFile war.archiveName, '/config/dropins/sample-war-proj.war'
+    environmentVariable('LICENSE', 'accept') 
+}
+
+task syncWebAppArchive(type: Sync) {
+    dependsOn assemble
+    from war.archivePath
+    into createDockerFile.destFile.parentFile
+}
+
+createDockerFile.dependsOn build
+createDockerFile.dependsOn syncWebAppArchive
+
+
+task createDockerImage(type: DockerBuildImage) {
+    dependsOn createDockerFile
+    inputDir = createDockerFile.destFile.parentFile
+    tags = [dockerTag + ":" + project.version]
+}
+
+test {
+    useJUnitPlatform()
+}
+
+createDockerImage.dependsOn createDockerFile

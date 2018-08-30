@@ -1,4 +1,4 @@
-Getting Weblogic installed on PKS from scratch using an Operator.
+# Getting Weblogic installed on PKS from scratch using an Operator
 
 
 ## Creating and connecting to your kuberentes cluster.
@@ -37,7 +37,8 @@ you need to add a line that looks like `10.195.2.161    wls-test.pks.haas-149.pe
 ## Verify your connection to the Kuberentes Cluster
 Now you should be able to verify that you can connect to the Kuberentes cluseter that you've created with the `kubectl cluster-info`  command. You should see an output similar to:
 
-```Kubernetes master is running at https://operator-kube-cluster.pks.haas-149.pez.pivotal.io:8443
+```
+Kubernetes master is running at https://operator-kube-cluster.pks.haas-149.pez.pivotal.io:8443
 Heapster is running at https://operator-kube-cluster.pks.haas-149.pez.pivotal.io:8443/api/v1/namespaces/kube-system/services/heapster/proxy
 KubeDNS is running at https://operator-kube-cluster.pks.haas-149.pez.pivotal.io:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 monitoring-influxdb is running at https://operator-kube-cluster.pks.haas-149.pez.pivotal.io:8443/api/v1/namespaces/kube-system/services/monitoring-influxdb/proxy
@@ -74,9 +75,9 @@ Under the kubernetes sub-directory of the file you cloned copy the operator inpu
 
  The Kubernetes namespaces where Weblogic domains are expected to be created will need to be listed:
 
- ```
+```
  targetNamespaces: weblogic-domain,default
- ```
+```
 
  Create a folder for the output of the operator installation command to be captured.
 `mkdir create-operator-output/`
@@ -108,7 +109,8 @@ replicaset.apps/weblogic-operator-7759668968   1         1         1         2m
 Logs from the operator are available by querying the pod listed above:
 `kubectl -n weblogic-operator logs  weblogic-operator-7759668968-6jw86`
 
-Finally you can see that custom resouce definition has been installed into your kuberentes cluster:
+Finally you can see that custom resouce definition has been installed into your kuberentes cluster: 
+
 `kubectl get crd`
 
 ```
@@ -116,8 +118,9 @@ Outputs:
 
 NAME                      AGE
 domains.weblogic.oracle   4m
+
 ```
 
 ## Next step - deploy the Weblogic domain
 
-You can now proceed to the next steps to deploy the actual Weblogic domain - https://github.com/pivotal-cf/weblogic-k8s-operator-recipe/blob/master/create_weblogic_domain.md
+You can now proceed to the [next steps](../02-create_weblogic_domain) to deploy the actual Weblogic domain

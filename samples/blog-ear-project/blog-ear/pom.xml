@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>blog-ear-parent</artifactId>
+        <groupId>com.pivotalservices</groupId>
+        <version>1.0</version>
+        <relativePath>../blog-ear-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>blog-ear</artifactId>
+    <packaging>ear</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.pivotalservices</groupId>
+            <artifactId>blog-ejb-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pivotalservices</groupId>
+            <artifactId>blog-ejb-impl</artifactId>
+            <version>1.0</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.pivotalservices</groupId>
+            <artifactId>blog-war</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <modules>
+                        <jarModule>
+                            <groupId>com.pivotalservices</groupId>
+                            <artifactId>blog-ejb-api</artifactId>
+                        </jarModule>
+                        <ejbModule>
+                            <groupId>com.pivotalservices</groupId>
+                            <artifactId>blog-ejb-impl</artifactId>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>com.pivotalservices</groupId>
+                            <artifactId>blog-war</artifactId>
+                            <contextRoot>blog-root</contextRoot>
+                        </webModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+        
+        
+    </build>
+</project>
