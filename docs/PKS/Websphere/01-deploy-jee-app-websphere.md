@@ -141,6 +141,12 @@ And check the status of the deploy:
 helm ls --all liberty-boot-app
 ```
 
+To see all the Kubernetes resources installed by this chart:
+
+```bash
+helm status liberty-boot-app
+```
+
 ## Delete Application
 To completely delete the application, run the following command:
 
