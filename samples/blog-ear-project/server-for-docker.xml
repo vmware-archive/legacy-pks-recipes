@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="ws-in-docker">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>webProfile-8.0</feature>
+        <!-- <feature>adminCenter-1.0</feature> -->
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+    
+    <dataSource id="DefaultDataSource" jndiName="jdbc/blog">
+        <jdbcDriver libraryRef="MySQLLib" javax.sql.DataSource="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+        <properties databaseName="${app.database}" serverName="${app.servername}" portNumber="3306" user="${app.user}" password="${app.password}"/>
+    </dataSource>
+
+
+    <library id="MySQLLib">
+        <file name="/config/libs/mysql-connector-java-5.1.46.jar"/>
+    </library>
+
+</server>

@@ -7,12 +7,18 @@ This is a JPA based JEE project representing a simple Blog domain. There are thr
 ## Users
 
 ```
+BASE_URL=???
+# For Minikube
+export NODE_IP=$(minikube ip)
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services blog-ear-app-ibm-websphe)
+BASE_URL=https://$NODE_IP:$NODE_PORT
+
 # Create Users
-http PUT 'http://baseurl/blog-root/api/user/create' fullname=user1 password=user1 email=user1@test.com -v
-http PUT 'http://baseurl/blog-root/api/user/create' fullname=user2 password=user2 email=user2@test.com -v
+http --verify=no PUT "${BASE_URL}/blog-root/api/user/create" fullname=user1 password=user1 email=user1@test.com -v
+http --verify=no PUT "${BASE_URL}/blog-root/api/user/create" fullname=user2 password=user2 email=user2@test.com -v
 
 # Get Users
-http GET 'http://baseurl/blog-root/api/user/list'
+http --verify=no GET "${BASE_URL}/blog-root/api/user/list"
 
 ```
 
@@ -20,8 +26,9 @@ http GET 'http://baseurl/blog-root/api/user/list'
 ## Posts
 ```
 # Create Post
-http PUT 'http://baseurl/blog-root/api/post/create?userId=1' title="My First Post" content="My Post Content"  -v
+http --verify=no PUT "${BASE_URL}/blog-root/api/post/create?userId=1" title="My First Post" content="My Post Content"
 
 # Get Posts
-http GET 'http://baseurl/blog-root/api/post/list' -v
+http --verify=no GET "${BASE_URL}/blog-root/api/post/list" -v
 ```
+
