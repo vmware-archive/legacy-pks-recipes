@@ -70,4 +70,11 @@ public class PostDAOImpl implements PostDAO {
         post.setUser(user);
         return commonDao.update(post);
     }
+
+    @Override
+    public List<Post> findPostsByUser(User user) {
+        return this.em.createNamedQuery("find.posts.by.user", Post.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
 }

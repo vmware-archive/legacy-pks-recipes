@@ -43,6 +43,8 @@ public class SampleDataManagerImpl implements SampleDataManager {
         User liberty = createUserIfNotPresent("liberty", "liberty", "liberty@liberty.org");
         createPostAndCommentIfNotPresent("TomEE", "TomEE is a cool JEE App Server", tomee);
         createPostAndCommentIfNotPresent("Liberty", "Liberty is a cool JEE application server", liberty);
+        createPostAndCommentIfNotPresent("Intro to Liberty", "WebSphere Liberty is a fast, dynamic, and easy-to-use Java application server, built on the open source Open Liberty project", liberty);
+        createPostAndCommentIfNotPresent("Liberty JEE Profiles", "The latest stable release of WebSphere Liberty supports Java EE 8 Full Platform in both development and production. Liberty also continues to support Java EE 6 Web Profile, Java EE 7 Full Profile, and Java EE 7 Web Profile.", liberty);
     }
 
     private Post createPostAndCommentIfNotPresent(String title, String content, User user) {

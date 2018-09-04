@@ -8,8 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "post.list", query = "select p from Post p"),
-        @NamedQuery(name = "find.post.by.title", query = "select p from Post p where p.title=:title")
+        @NamedQuery(name = "post.list", query = "select p from Post p order by p.created desc"),
+        @NamedQuery(name = "find.post.by.title", query = "select p from Post p where p.title=:title"),
+        @NamedQuery(name = "find.posts.by.user", query = "select p from Post p where p.user=:user")
 })
 @XmlRootElement(name = "post")
 public class Post extends DatedModel {
