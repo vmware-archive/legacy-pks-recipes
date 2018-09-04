@@ -8,6 +8,8 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Singleton(name="UserDAO")
@@ -17,12 +19,25 @@ public class UserDAOImpl implements UserDAO {
     @Inject
     private CommonDao commonDao;
 
+    @PersistenceContext(unitName = "blog")
+    protected EntityManager em;
+
     public User create(String name, String pwd, String mail) {
         User user = new User();
         user.setFullname(name);
         user.setPassword(pwd);
         user.setEmail(mail);
         return commonDao.create(user);
+    }
+
+    @Override
+    public User findByEmail(String mail) {
+        return this.em.createNamedQuery("user.find.by.email", User.class)
+                .setParameter("email", mail)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
     public List<User> list(int first, int max) {

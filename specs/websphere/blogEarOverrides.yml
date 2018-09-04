@@ -2,11 +2,11 @@ image:
   repository: "bijukunjummen/blog-ear-project"
   tag: "0.0.2-SNAPSHOT"
 
-# autoscaling:
-#   enabled: true
-#   minReplicas: 2
-#   maxReplicas: 10
-#   targetCPUUtilizationPercentage: 40
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 40
   
 env:
   jvmArgs: "-Dapp.servername=blog-db-mysql -Dapp.user=bloguser -Dapp.password=blogpassword -Dapp.database=blogdb"  
