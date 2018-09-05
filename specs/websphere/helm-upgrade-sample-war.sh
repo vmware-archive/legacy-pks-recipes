@@ -1,0 +1,1 @@
+helm upgrade sample-war ibm-charts/ibm-websphere-liberty -f sample-war-proj.yml
