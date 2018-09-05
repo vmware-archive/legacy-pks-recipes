@@ -2,6 +2,15 @@ image:
   repository: "bijukunjummen/blog-ear-project"
   tag: "0.0.2-SNAPSHOT"
 
+ingress:
+  enabled: true
+  path: "/blog-root"
+  rewriteTarget: "/blog-root"
+
+microprofile:
+  health: 
+    enabled: false  
+
 autoscaling:
   enabled: true
   minReplicas: 2

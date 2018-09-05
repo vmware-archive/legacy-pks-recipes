@@ -47,9 +47,16 @@ dependencies {
 }
 
 task createDockerFile(type: Dockerfile) {
+    doFirst {
+        copy {
+            from 'server-for-docker.xml'
+            into createDockerFile.destFile.parentFile
+        }
+    }
     destFile = project.file('build/docker/Dockerfile')
     from 'websphere-liberty:webProfile8'
     copyFile war.archiveName, '/config/dropins/sample-war-proj.war'
+    copyFile 'server-for-docker.xml', '/config/server.xml'
     environmentVariable('LICENSE', 'accept') 
 }
 
