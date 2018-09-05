@@ -1,10 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Login..</title>
+    <title>Posts By User</title>
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Source+Sans+Pro'/>
@@ -13,7 +15,7 @@
             font-family: 'Source Sans Pro', sans-serif;
         }
     </style>
-
+    
 </head>
 
 <body>
@@ -28,34 +30,24 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/web/open/changeActiveUser">Change Active User</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/web/closed/showPosts">Show Posts of Active
+                    User: <c:out value="${activeUser.fullname}"/></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/web/open/changeActiveUser">Change Active
+                    User</a>
             </li>
         </ul>
     </div>
 </nav>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <form method="post" action="${pageContext.request.contextPath}/web/open/setUser">
-                <div class="form-group">
-                    <label for="selectedUser">Select User</label>
-                    <select class="custom-select my-1 mr-sm-2" id="selectedUser" name="selectedUser">
-                        <option selected>Choose...</option>
-                        <c:forEach items="${users}" var="user">
-                            <option value="${user.email}"><c:out value="${user.email}"/> <c:out
-                                    value="${user.fullname}"/></option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-        <div class="col-sm-1"></div>
-
+    <div class="jumbotron">
+        <h1 class="display-4">Error:  <c:out value="${message}"/></h1>
     </div>
 </div>
+
 <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+
 </body>
 </html>

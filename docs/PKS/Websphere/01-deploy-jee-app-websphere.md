@@ -49,7 +49,7 @@ docker push bijukunjummen/sample-war-proj:0.0.4-SNAPSHOT
 
 Create a yaml to provide some override values for the [Websphere Liberty Helm Chart](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty/). 
 
-A sample is available in `specs/websphere/libertyOverrides.yml` file:
+A sample is available in `specs/websphere/sample-war-proj.yml` file:
 
 ```yml
 image:
@@ -67,7 +67,7 @@ Install the helm chart:
 
 ```bash
 helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
-helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f libertyOverrides.yml
+helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f sample-war-proj.yml
 ```
 
 ## Make the service visible to an end user
@@ -114,7 +114,7 @@ curl -k  -s https://10.195.52.152/sample-war-proj/ping
 
 ## Upgrading application
 Assuming a new docker image with the application packaged in is available, 
-change the `specs/websphere/libertyOverrides.yml` with the details of the new image:
+change the `specs/websphere/sample-war-proj.yml` with the details of the new image:
 
 ```yml
 image:
@@ -132,7 +132,7 @@ autoscaling:
 and use helm to upgrade the chart:
 
 ```
-helm upgrade liberty-boot-app ibm-charts/ibm-websphere-liberty -f libertyOverrides.yml
+helm upgrade liberty-boot-app ibm-charts/ibm-websphere-liberty -f sample-war-proj.yml
 ```
 
 And check the status of the deploy:
