@@ -153,8 +153,12 @@ kubectl get service blog-ear-app-ibm-websphe -o 'jsonpath={.status.loadBalancer.
 If the deployment has completed, it can be tested using a curl command against the load balancer ip:
 
 ```bash
-curl -k  -s https://10.195.52.152/blog-root/
+curl -k  -s https://10.195.52.152/blog-root/api/users/list
 ```
+
+A UI is avaialble at https://baseurl/ :
+
+![Sample UI](./images/SampleAppUI.png)
 
 ## Delete Application
 To completely delete the application, run the following command:

@@ -2,7 +2,6 @@ package com.pivotalservices.sample.web.flow;
 
 import com.pivotalservices.sample.dao.PostDAO;
 import com.pivotalservices.sample.dao.UserDAO;
-import com.pivotalservices.sample.model.Post;
 import com.pivotalservices.sample.model.User;
 
 import javax.ejb.EJB;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/web/open/setUser")
 public class SetUserServlet extends HttpServlet {
@@ -33,12 +31,7 @@ public class SetUserServlet extends HttpServlet {
 
         request.getSession(true).setAttribute("activeUser", user);
 
-        List<Post> posts = postDAO.findPostsByUser(user);
-        request.setAttribute("posts", posts);
-
-        request.getRequestDispatcher("/WEB-INF/jsp/posts.jsp")
-                .forward(request, response);
-
+        response.sendRedirect(request.getContextPath() + "/web/closed/showPosts");
     }
     
 }
