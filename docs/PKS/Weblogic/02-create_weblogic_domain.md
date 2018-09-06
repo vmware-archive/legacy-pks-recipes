@@ -5,6 +5,8 @@ A prerequisite of creating a Weblogic domain using these steps is to first have 
 An additional prerequisite for this process is to be able to create a Persistent Volume (https://kubernetes.io/docs/concepts/storage/persistent-volumes/) In your cluster that supports the Access mode of ReadWriteMany.
 I would caution against trying to use VsphereVolume(s) as of 2018/8/2 it does not appear to work with the access mode - something that is ambiguous
 
+![Final State](./images/WeblogicOperatorOverview.png)
+
 ## Verifying the Persistent Volume
 In order to verify that we're able to create and use Persistent Volumes I would suggest that we build some sample containers that utilize the persistent volumes and verify their access.
 

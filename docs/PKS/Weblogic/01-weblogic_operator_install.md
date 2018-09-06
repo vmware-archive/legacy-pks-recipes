@@ -16,9 +16,11 @@ Now you need to set your machine to use the credentials you've just pulled down.
 `kubectl config use-context operator-kube-cluster`
 
 ## Setup your hosts file so your machine can connect to Kuberenetes.
-   Often times kubernetes can't setup the DNS entries for the cluster you've created. So the easiest way to get things working is to edit your /etc/hosts file. First we need to find the cluster ip address you can do this with 
-   `pks cluster operator-kube-cluster` 
-   This commands output will show both the `Kubernetes Master Host` and the `Kubernetes Master IP(s)`.  You then need create an entry in your /etc/hosts files that does this mapping for you, for requests using the kubectl command to work.  If your output was:
+
+Often times kubernetes can't setup the DNS entries for the cluster you've created. So the easiest way to get things working is to edit your /etc/hosts file. First we need to find the cluster ip address you can do this with 
+`pks cluster operator-kube-cluster` 
+This commands output will show both the `Kubernetes Master Host` and the `Kubernetes Master IP(s)`.  You then need create an entry in your /etc/hosts files that does this mapping for you, for requests using the kubectl command to work.  If your output was:
+
 ```
 Name:                     wls-test
 Plan Name:                small
@@ -49,37 +51,45 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ## Install the Weblogic Operator into our Kuberentes Cluster
 Now we are going to install the Oracle Weblogic Operator into our Kuberentes cluster. This will create a custom resource in Kuberentes that manages the weblogic domain (cluster).
 Oracle provides instructions at:
-https://blogs.oracle.com/developers/announcing-oracle-weblogic-server-kuberentes-operator
+[https://blogs.oracle.com/developers/announcing-oracle-weblogic-server-kuberentes-operator](https://blogs.oracle.com/developers/announcing-oracle-weblogic-server-kuberentes-operator)
 but in trying to follow them I ran into a number of omissions and problems, The following instructions should be more explicit and complete - but feel free to reference the Oracle documentation for help along the way.
 
 Additionally the above instructions reference Youtube videos for explaining some of the steps, but I found the documentation in the Repository to be more up to date:
-https://github.com/oracle/weblogic-kubernetes-operator/blob/master/site/installation.md
+[https://github.com/oracle/weblogic-kubernetes-operator/blob/master/site/installation.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/site/installation.md)
 
 ### Seting up our configuration files to install the operator into our Kuberenetes cluster.
- Now we need to modify to prepare the secrets and operator scripts to be able to install the operator into our cluster.
+
+Clone the Weblogic-kubernetes-operator repo:
+
+```
+git clone https://github.com/oracle/weblogic-kubernetes-operator/
+```
+
+Now we need to modify to prepare the secrets and operator scripts to be able to install the operator into our cluster.
 
 You will need to create a namespace for the operator to be initialized into:
 `kubectl create namespace weblogic-operator`
 
-Create a kuberentes secret that contains your dockerhub credentials, so that kuberentes will be able to fetch the image you uploaded:
+Create a kubernetes secret that contains your dockerhub credentials, so that kuberentes will be able to fetch the image you uploaded:
 
 `kubectl create secret docker-registry wsvoorhees-docker-creds --docker-username=wsvoorhees --docker-password=SECRET --docker-email=will.voorhees@gmail.com --namespace weblogic-operator`
 
 
-Under the kubernetes sub-directory of the file you cloned copy the operator inputs file for customization.
-` cp create-weblogic-operator-inputs.yaml create-weblogic-operator-inputs-voorhees.yaml`
-
- Change the `weblogicOperatorImage` to `oracle/weblogic-kubernetes-operator:1.0`
-
- You also need to change the `weblogicOperatorImagePullSecretName` field to refer to the secret you created above for your dockerhub credentials in this case the secrets name is: `wsvoorhees-docker-creds`
-
- The Kubernetes namespaces where Weblogic domains are expected to be created will need to be listed:
+Under the `kubernetes` sub-directory of the `weblogic-kubernetes-operator` project, copy the operator inputs file for customization.
 
 ```
- targetNamespaces: weblogic-domain,default
+ cp create-weblogic-operator-inputs.yaml create-weblogic-operator-inputs-voorhees.yaml
 ```
 
- Create a folder for the output of the operator installation command to be captured.
+Change the following: 
+
+```yaml
+weblogicOperatorImage: oracle/weblogic-kubernetes-operator:1.0
+targetNamespaces: weblogic-domain,default
+weblogicOperatorImagePullSecretName: wsvoorhees-docker-creds
+```
+
+Create a folder for the output of the operator installation command to be captured.
 `mkdir create-operator-output/`
 
 ### Installing and Verifying the Operator
