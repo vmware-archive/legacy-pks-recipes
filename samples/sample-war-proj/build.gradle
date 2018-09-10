@@ -22,7 +22,7 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 group = 'com.example'
-version = '0.0.5-SNAPSHOT'
+version = '0.0.9-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -54,7 +54,7 @@ task createDockerFile(type: Dockerfile) {
         }
     }
     destFile = project.file('build/docker/Dockerfile')
-    from 'websphere-liberty:webProfile8'
+    from 'websphere-liberty:microProfile'
     copyFile war.archiveName, '/config/dropins/sample-war-proj.war'
     copyFile 'server-for-docker.xml', '/config/server.xml'
     environmentVariable('LICENSE', 'accept') 

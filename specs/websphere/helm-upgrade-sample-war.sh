@@ -1,1 +1,1 @@
-helm upgrade sample-war ibm-charts/ibm-websphere-liberty -f sample-war-proj.yml
+helm upgrade boot-sample ibm-charts/ibm-websphere-liberty -f sample-boot-proj.yml

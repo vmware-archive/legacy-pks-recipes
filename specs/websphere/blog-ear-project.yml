@@ -2,20 +2,29 @@ image:
   repository: "bijukunjummen/blog-ear-project"
   tag: "0.0.2-SNAPSHOT"
 
+# Does not work in NSX-Environment. 
 ingress:
-  enabled: true
+  enabled: false
   path: "/blog-root"
   rewriteTarget: "/blog-root"
 
-microprofile:
-  health: 
-    enabled: false  
+# autoscaling:
+#   enabled: false
+#   minReplicas: 2
+#   maxReplicas: 10
+#   targetCPUUtilizationPercentage: 40
 
-autoscaling:
-  enabled: true
-  minReplicas: 2
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 40
+logs:
+  persistTransactionLogs: false
+
+replicaCount: 1
   
 env:
   jvmArgs: "-Dapp.servername=blog-db-mysql -Dapp.user=bloguser -Dapp.password=blogpassword -Dapp.database=blogdb"  
+
+ssl:
+  enabled: false
+
+service:
+  type: LoadBalancer
+  port: 443

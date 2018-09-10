@@ -12,5 +12,5 @@ spec:
       targetPort: 7001
   selector:
     weblogic.createdByOperator: "true"
-    weblogic.domainUID: "domain1"
+    weblogic.domainUID: "bkdomain2"
     weblogic.serverName: "admin-server"

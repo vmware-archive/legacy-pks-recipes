@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: custom-ing-boot-sample
+  annotations:
+    kubernetes.io/ingress.class: nsx
+    # ingress.kubernetes.io/affinity: "cookie"
+    # ingress.kubernetes.io/session-cookie-name: "route"
+    # ingress.kubernetes.io/session-cookie-hash: "sha1"
+    # ingress.kubernetes.io/rewrite-target: /sample-war-proj
+spec:
+  rules:
+    - http:
+        paths:
+        - path: /sample-war-proj.*
+          backend:
+            serviceName: boot-sample-ibm-webspher
+            servicePort: 9080

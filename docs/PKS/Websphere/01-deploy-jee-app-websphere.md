@@ -23,7 +23,7 @@ dockerTag=my-dockerhub-username/sample-war-proj
 # dockerTag=bijukunjummen/sample-war-proj
 ```
 
-Build the project and create a docker image, this image builds on `websphere-liberty:webProfile8`:
+Build the project and create a docker image.  This image builds on the base image `websphere-liberty:webProfile8`. If [microprofile health](https://github.com/eclipse/microprofile-health) is desired, then the base image should be `websphere-liberty:microProfile`.:
 
 ```bash
 cd samples/sample-war-proj

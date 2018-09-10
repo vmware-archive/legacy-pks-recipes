@@ -27,7 +27,6 @@ public class ShowPostsOfActiveUser extends HttpServlet {
     protected void service(HttpServletRequest request,
                            HttpServletResponse response) throws ServletException, IOException {
 
-
         User activeUser = (User)request.getSession().getAttribute("activeUser");
 
         List<Post> posts = postDAO.findPostsByUser(activeUser);
