@@ -9,6 +9,8 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Singleton(name = "PostDAO")
@@ -17,6 +19,9 @@ public class PostDAOImpl implements PostDAO {
 
     @Inject
     private CommonDao commonDao;
+
+    @PersistenceContext(unitName = "blog")
+    protected EntityManager em;
 
     public Post create(String title, String content, long userId) {
         User user = commonDao.find(User.class, userId);
@@ -29,6 +34,16 @@ public class PostDAOImpl implements PostDAO {
 
     public Post find(long id) {
         return commonDao.find(Post.class, id);
+    }
+
+    @Override
+    public Post findPostByTitle(String title) {
+        return this.em.createNamedQuery("find.post.by.title", Post.class)
+                .setParameter("title", title)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
     public List<Post> list(int first, int max) {
@@ -54,5 +69,12 @@ public class PostDAOImpl implements PostDAO {
         post.setContent(content);
         post.setUser(user);
         return commonDao.update(post);
+    }
+
+    @Override
+    public List<Post> findPostsByUser(User user) {
+        return this.em.createNamedQuery("find.posts.by.user", Post.class)
+                .setParameter("user", user)
+                .getResultList();
     }
 }

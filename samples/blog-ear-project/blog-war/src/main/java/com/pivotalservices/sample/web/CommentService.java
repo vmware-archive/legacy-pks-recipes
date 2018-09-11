@@ -7,7 +7,7 @@ import javax.ejb.EJB;
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/api/comment")
+@Path("/comment")
 @Produces({"application/json"})
 public class CommentService {
 

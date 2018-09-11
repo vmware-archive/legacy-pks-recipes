@@ -1,6 +1,5 @@
 package com.pivotalservices.sample.batcher;
 
-import com.pivotalservices.sample.batcher.SampleDataManager;
 import com.pivotalservices.sample.dao.CommentDAO;
 import com.pivotalservices.sample.dao.PostDAO;
 import com.pivotalservices.sample.dao.UserDAO;
@@ -11,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -41,25 +39,47 @@ public class SampleDataManagerImpl implements SampleDataManager {
 
     @PostConstruct
     public void createSomeData() {
-        final User tomee = users.create("tomee", "tomee", "tomee@apache.org");
-        final User openejb = users.create("openejb", "openejb", "openejb@apache.org");
-        final Post tomeePost = posts.create("TomEE", "TomEE is a cool JEE App Server", tomee.getId());
-        posts.create("OpenEJB", "OpenEJB is a cool embedded container", openejb.getId());
-        comments.create("visitor", "nice post!", tomeePost.getId());
+        User tomee = createUserIfNotPresent("tomee", "tomee", "tomee@apache.org");
+        User liberty = createUserIfNotPresent("liberty", "liberty", "liberty@liberty.org");
+        createPostAndCommentIfNotPresent("TomEE", "TomEE is a cool JEE App Server", tomee);
+        createPostAndCommentIfNotPresent("Liberty", "Liberty is a cool JEE application server", liberty);
+        createPostAndCommentIfNotPresent("Intro to Liberty", "WebSphere Liberty is a fast, dynamic, and easy-to-use Java application server, built on the open source Open Liberty project", liberty);
+        createPostAndCommentIfNotPresent("Liberty JEE Profiles", "The latest stable release of WebSphere Liberty supports Java EE 8 Full Platform in both development and production. Liberty also continues to support Java EE 6 Web Profile, Java EE 7 Full Profile, and Java EE 7 Web Profile.", liberty);
     }
 
-    // a bit ugly but at least we clean data
-    @Schedule(second = "0", minute = "30", hour = "*", persistent = false)
-    private void cleanData() {
-        LOGGER.info("Cleaning data");
-        deleteAll();
-        createSomeData();
-        LOGGER.info("Data reset");
+    private Post createPostAndCommentIfNotPresent(String title, String content, User user) {
+        Post post = this.posts.findPostByTitle(title);
+        if (post != null) {
+            return post;
+        }
+        Post newPost =  posts.create(title, content, user.getId());
+        comments.create("visitor", "nice post on '" + title + "'", newPost.getId());
+
+        return newPost;
     }
 
-    private void deleteAll() {
-        em.createQuery("delete From Comment").executeUpdate();
-        em.createQuery("delete From Post").executeUpdate();
-        em.createQuery("delete From User").executeUpdate();
+
+    private User createUserIfNotPresent(String name, String pwd, String email) {
+        User user = this.users.findByEmail(email);
+        
+        if (user != null) {
+            return user;
+        }
+        
+        return users.create(name, pwd, email);
     }
+
+//    @Schedule(second = "0", minute = "30", hour = "*", persistent = false)
+//    private void cleanData() {
+//        LOGGER.info("Cleaning data");
+//        deleteAll();
+//        createSomeData();
+//        LOGGER.info("Data reset");
+//    }
+//
+//    private void deleteAll() {
+//        em.createQuery("delete From Comment").executeUpdate();
+//        em.createQuery("delete From Post").executeUpdate();
+//        em.createQuery("delete From User").executeUpdate();
+//    }
 }

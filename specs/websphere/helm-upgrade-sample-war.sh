@@ -1,0 +1,1 @@
+helm upgrade boot-sample ibm-charts/ibm-websphere-liberty -f sample-boot-proj.yml

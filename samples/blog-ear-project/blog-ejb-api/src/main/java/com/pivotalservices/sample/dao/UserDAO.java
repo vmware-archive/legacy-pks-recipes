@@ -9,6 +9,8 @@ public interface UserDAO {
 
     User create(String name, String pwd, String mail);
 
+    User findByEmail(String mail);
+
     List<User> list(int first, int max);
 
     User find(long id);

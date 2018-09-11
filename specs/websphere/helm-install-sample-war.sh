@@ -1,0 +1,1 @@
+helm install ibm-charts/ibm-websphere-liberty --name boot-sample -f sample-boot-proj.yml

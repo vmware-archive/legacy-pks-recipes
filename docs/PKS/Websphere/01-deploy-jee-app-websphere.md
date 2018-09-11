@@ -23,7 +23,7 @@ dockerTag=my-dockerhub-username/sample-war-proj
 # dockerTag=bijukunjummen/sample-war-proj
 ```
 
-Build the project and create a docker image, this image builds on `websphere-liberty:webProfile8`:
+Build the project and create a docker image.  This image builds on the base image `websphere-liberty:webProfile8`. If [microprofile health](https://github.com/eclipse/microprofile-health) is desired, then the base image should be `websphere-liberty:microProfile`.:
 
 ```bash
 cd samples/sample-war-proj
@@ -49,25 +49,35 @@ docker push bijukunjummen/sample-war-proj:0.0.4-SNAPSHOT
 
 Create a yaml to provide some override values for the [Websphere Liberty Helm Chart](https://github.com/IBM/charts/tree/master/stable/ibm-websphere-liberty/). 
 
-A sample is available in `specs/websphere/libertyOverrides.yml` file:
+A sample is available in `specs/websphere/sample-war-proj.yml` file:
 
 ```yml
 image:
   repository: "bijukunjummen/sample-war-proj"
   tag: "0.0.4-SNAPSHOT"
 
+ingress:
+  enabled: true
+  path: "/sample-war-proj"
+  rewriteTarget: "/sample-war-proj"
+
+microprofile:
+  health: 
+    enabled: false  
+
 autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 40  
+  targetCPUUtilizationPercentage: 40
+   
 ```
 
 Install the helm chart:
 
 ```bash
 helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
-helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f libertyOverrides.yml
+helm install ibm-charts/ibm-websphere-liberty --name liberty-boot-app -f sample-war-proj.yml
 ```
 
 ## Make the service visible to an end user
@@ -114,7 +124,7 @@ curl -k  -s https://10.195.52.152/sample-war-proj/ping
 
 ## Upgrading application
 Assuming a new docker image with the application packaged in is available, 
-change the `specs/websphere/libertyOverrides.yml` with the details of the new image:
+change the `specs/websphere/sample-war-proj.yml` with the details of the new image:
 
 ```yml
 image:
@@ -132,13 +142,19 @@ autoscaling:
 and use helm to upgrade the chart:
 
 ```
-helm upgrade liberty-boot-app ibm-charts/ibm-websphere-liberty -f libertyOverrides.yml
+helm upgrade liberty-boot-app ibm-charts/ibm-websphere-liberty -f sample-war-proj.yml
 ```
 
 And check the status of the deploy:
 
 ```bash
 helm ls --all liberty-boot-app
+```
+
+To see all the Kubernetes resources installed by this chart:
+
+```bash
+helm status liberty-boot-app
 ```
 
 ## Delete Application
