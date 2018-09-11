@@ -1,8 +1,8 @@
 image:
   repository: "bijukunjummen/blog-ear-project"
-  tag: "0.0.2-SNAPSHOT"
+  tag: "0.0.3-SNAPSHOT"
 
-# Does not work in NSX-Environment. 
+# Does not work in NSX-T Environment as of NSX 2.1
 ingress:
   enabled: false
   path: "/blog-root"
@@ -27,4 +27,5 @@ ssl:
 
 service:
   type: LoadBalancer
-  port: 443
+  port: 80
+  targetPort: 9080

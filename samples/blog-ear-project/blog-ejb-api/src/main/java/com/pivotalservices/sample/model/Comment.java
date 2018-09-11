@@ -1,10 +1,14 @@
 package com.pivotalservices.sample.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
@@ -12,7 +16,6 @@ import javax.xml.bind.annotation.XmlTransient;
         @NamedQuery(name = "comment.list", query = "select c from Comment c"),
         @NamedQuery(name = "comment.for.post", query = "select c from Comment c where c.post.id=:postId")
 })
-@XmlRootElement(name = "comment")
 public class Comment extends Model {
 
     @NotNull

@@ -1,6 +1,6 @@
 image:
   repository: "bijukunjummen/sample-war-proj"
-  tag: "0.0.8-SNAPSHOT"
+  tag: "0.0.9-SNAPSHOT"
 
 ingress:
   enabled: false

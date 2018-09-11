@@ -1,12 +1,13 @@
 package com.pivotalservices.sample.model;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Model {
 
     @Id

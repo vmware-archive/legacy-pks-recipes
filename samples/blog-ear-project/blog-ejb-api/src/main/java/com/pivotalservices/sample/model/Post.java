@@ -1,10 +1,13 @@
 package com.pivotalservices.sample.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
@@ -12,7 +15,6 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "find.post.by.title", query = "select p from Post p where p.title=:title"),
         @NamedQuery(name = "find.posts.by.user", query = "select p from Post p where p.user=:user")
 })
-@XmlRootElement(name = "post")
 public class Post extends DatedModel {
 
     @NotNull

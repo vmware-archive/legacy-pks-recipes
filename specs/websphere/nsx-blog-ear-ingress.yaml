@@ -14,5 +14,5 @@ spec:
         paths:
         - path: /blog-root.*
           backend:
-            serviceName: boot-sample-ibm-webspher
+            serviceName: blog-ear-app-ibm-websphe
             servicePort: 9080

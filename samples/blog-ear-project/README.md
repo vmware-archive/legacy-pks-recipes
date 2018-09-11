@@ -4,6 +4,14 @@ This is a JPA based JEE project representing a simple Blog domain. There are thr
 1. Post
 1. Comments
 
+The following JEE Technologies are used:
+1. JAX-RS for REST API
+2. EJB Entity beans/JPA
+3. JSP for UI
+4. CDI for dependency management
+5. Servlet API
+
+
 ## Users
 
 ```
