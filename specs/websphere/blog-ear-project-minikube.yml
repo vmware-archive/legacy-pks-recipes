@@ -2,9 +2,8 @@ image:
   repository: "bijukunjummen/blog-ear-project"
   tag: "0.0.3-SNAPSHOT"
 
-# Does not work in NSX-T Environment as of NSX 2.1, PKS 1.X
 ingress:
-  enabled: false
+  enabled: true
   path: "/blog-root"
   rewriteTarget: "/blog-root"
 

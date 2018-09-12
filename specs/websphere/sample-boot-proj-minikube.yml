@@ -3,7 +3,7 @@ image:
   tag: "0.0.8-SNAPSHOT"
 
 ingress:
-  enabled: false
+  enabled: true
   path: "/sample-war-proj"
   rewriteTarget: "/sample-war-proj"
 

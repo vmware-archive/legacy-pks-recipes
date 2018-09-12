@@ -9,4 +9,4 @@ spec:
     - ReadWriteOnce
   nfs:
     path: /mnt/mysql-pool/
-    server: nfsserver
+    server: 172.16.2.12
