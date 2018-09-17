@@ -1,0 +1,30 @@
+image:
+  repository: "bijukunjummen/daytrader"
+  tag: "0.0.8"
+
+ingress:
+  enabled: false
+  path: "/daytrader"
+  rewriteTarget: "/daytrader"
+
+# autoscaling:
+#   enabled: false
+#   minReplicas: 2
+#   maxReplicas: 10
+#   targetCPUUtilizationPercentage: 40
+
+logs:
+  persistTransactionLogs: false
+
+replicaCount: 1
+
+#env:
+#  jvmArgs: "-Dapp.servername=blog-db-mysql -Dapp.user=bloguser -Dapp.password=blogpassword -Dapp.database=blogdb"
+
+ssl:
+  enabled: false
+
+service:
+  type: ClusterIP
+  port: 9080
+  targetPort: 9080
