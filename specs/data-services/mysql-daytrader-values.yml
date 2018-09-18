@@ -1,0 +1,13 @@
+
+image: "mysql"
+imageTag: "5.7.14"
+
+mysqlUser: daytraderuser
+
+mysqlPassword: daytraderpassword
+
+mysqlDatabase: daytraderdb
+imagePullPolicy: IfNotPresent
+
+persistence:
+  storageClass: "vsphere-storage"
