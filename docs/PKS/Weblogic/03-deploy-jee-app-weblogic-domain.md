@@ -23,7 +23,21 @@ The package to be deployed will get created in the blog-ear-project/blog-ear/tar
 
 ## Installing the Database
 
-Create the persistent volume for the database with an accessmode of `ReadWriteOnce`. Modify the `mysql-pv-sample.yml` file for the right values in the environment and create the persistent volume
+**If the environment is PKS**, ensure that `vsphere-storage` class is present in the environment, if not create one with the following yaml:
+
+```
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+  name: vsphere-storage
+provisioner: kubernetes.io/vsphere-volume
+parameters:
+    diskformat: zeroedthick
+```
+
+This definition is also available in the `specs/data-services/vsphere` folder.
+
+If the enviornment is not PKS, create the persistent volume for the database with an accessmode of `ReadWriteOnce`. Modify the `mysql-pv-sample.yml` file for the right values in the environment and create the persistent volume
 
 ```
 cd spec/data-services
@@ -42,6 +56,14 @@ Once tiller is in place, run the following command to deploy mysql:
 ```
 helm install --name blog-db -f mysql-values.yml stable/mysql
 ```
+
+If it is a PKS environment, ensure that the storageClass is specified as `vsphere-storage` in mysql-values.yml file:
+
+```
+persistence:
+  storageClass: "vsphere-storage"
+```
+
 
 ## Test the database
 
