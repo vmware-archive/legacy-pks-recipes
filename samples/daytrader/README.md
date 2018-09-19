@@ -1,4 +1,56 @@
-# sample.daytrader7 [![Build Status](https://travis-ci.org/WASdev/sample.daytrader7.svg?branch=master)](https://travis-ci.org/WASdev/sample.daytrader7)
+# Using Embedded Derby
+
+## Build an image
+```
+ docker build -t bijukunjummen/daytrader:0.0.15-derby .
+```
+
+## Install using helm
+
+Ensure that the values in `helm-values-pks.yml` has the right image and tag:
+
+```
+image:
+  repository: "bijukunjummen/daytrader"
+  tag: "0.0.15-derby"
+```
+
+Install using the override values:
+
+```
+helm install ibm-charts/ibm-websphere-liberty --name daytrader -f helm-values-pks.yml
+```
+
+# Using Mysql
+
+## Build an image
+
+```
+docker build -f DockerfileMysql -t bijukunjummen/daytrader:0.0.15-mysql .
+```
+
+## Install using helm
+
+Ensure that the values in `helm-values-pks-mysql.yml` has the right image and tag and the right database creds are provided:
+
+```
+image:
+  repository: "bijukunjummen/daytrader"
+  tag: "0.0.15-mysql"
+
+replicaCount: 1
+
+env:
+  jvmArgs: "-Dapp.servername=daytrader-db-mysql -Dapp.user=daytraderuser -Dapp.password=daytraderpassword -Dapp.database=daytraderdb"
+
+```
+
+and start up the application using helm:
+
+```
+helm install ibm-charts/ibm-websphere-liberty --name daytrader -f helm-values-pks-mysql.yml
+```
+
 
 # Java EE7: DayTrader7 Sample
 

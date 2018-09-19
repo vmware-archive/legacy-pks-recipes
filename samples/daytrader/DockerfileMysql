@@ -1,0 +1,7 @@
+FROM websphere-liberty:javaee8
+RUN mkdir /config/libs
+COPY daytrader-ee7/target/daytrader-ee7-1.0-SNAPSHOT.ear /config/dropins/daytrader-ee7.ear
+COPY server-for-helm-mysql.xml /config/server.xml
+COPY mysql-lib/mysql-connector-java-8.0.12.jar /config/libs
+RUN installUtility install --acceptLicense defaultServer
+ENV LICENSE accept

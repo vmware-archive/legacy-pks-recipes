@@ -1,6 +1,6 @@
 image:
   repository: "bijukunjummen/daytrader"
-  tag: "0.0.15-derby"
+  tag: "0.0.15-mysql"
 
 ingress:
   enabled: false
@@ -17,6 +17,9 @@ logs:
   persistTransactionLogs: false
 
 replicaCount: 1
+
+env:
+  jvmArgs: "-Dapp.servername=daytrader-db-mysql -Dapp.user=daytraderuser -Dapp.password=daytraderpassword -Dapp.database=daytraderdb"
 
 ssl:
   enabled: false
