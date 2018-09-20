@@ -1,1 +1,1 @@
-helm install --name daytrader-db -f mysql-daytrader-values.yml stable/mysql
+helm install --name dayt-db -f mysql-daytrader-values.yml stable/mysql

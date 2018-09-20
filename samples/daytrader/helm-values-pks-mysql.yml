@@ -16,14 +16,14 @@ ingress:
 logs:
   persistTransactionLogs: true
 
-replicaCount: 1
+replicaCount: 3
 
 env:
-  jvmArgs: "-Dapp.servername=daytrader-db-mysql -Dapp.user=daytraderuser -Dapp.password=daytraderpassword -Dapp.database=daytraderdb"
+  jvmArgs: "-Dapp.servername=dayt-db-mysql -Dapp.user=daytraderuser -Dapp.password=daytraderpassword -Dapp.database=daytraderdb"
 
 ssl:
   enabled: false
-  
+
 persistence:
   storageClassName: vsphere-storage  
 
