@@ -73,6 +73,15 @@ autoscaling:
    
 ```
 
+If persistent transactions are desired, then it is better for pods to start with an identity and maintain a stable persistent volume 
+at the point of restarts (if unhealthy or during upgrades). The following property can be set in the helm values for stateful sets to be created:
+
+
+```yml
+logs:
+  persistTransactionLogs: true
+```
+
 Install the helm chart:
 
 ```bash
@@ -155,6 +164,13 @@ To see all the Kubernetes resources installed by this chart:
 
 ```bash
 helm status liberty-boot-app
+```
+
+If stateful sets are used, there is an issue with the definition of the stateful set that prevents the pods from being updated cleanly. 
+This can be fixed by patching the stateful set created by the helm chart the following way:
+
+```bash
+kubectl patch statefulset liberty-boot-app-websphere -p '{"spec":{"updateStrategy":{"type":"RollingUpdate"}}}'
 ```
 
 ## Delete Application
