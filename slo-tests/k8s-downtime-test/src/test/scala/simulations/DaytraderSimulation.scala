@@ -13,9 +13,24 @@ class DaytraderSimulation extends Simulation {
 
   val httpConf = http
     .baseUrl(baseUrl)
-//    .inferHtmlResources()
+  //    .inferHtmlResources()
 
   val headers = Map("Accept" -> "text/html")
+
+  val feeder = Array(
+    Map("user" -> "uid:0", "password" -> "xxx"),
+    Map("user" -> "uid:1", "password" -> "xxx"),
+    Map("user" -> "uid:2", "password" -> "xxx"),
+    Map("user" -> "uid:3", "password" -> "xxx"),
+    Map("user" -> "uid:4", "password" -> "xxx"),
+    Map("user" -> "uid:5", "password" -> "xxx"),
+    Map("user" -> "uid:6", "password" -> "xxx"),
+    Map("user" -> "uid:7", "password" -> "xxx"),
+    Map("user" -> "uid:8", "password" -> "xxx"),
+    Map("user" -> "uid:9", "password" -> "xxx"),
+    Map("user" -> "uid:10", "password" -> "xxx")
+  ).random
+
 
   val sampleUserFlow = during(repeatDuration minutes) {
     exec(http("daytrader home page")
@@ -26,17 +41,18 @@ class DaytraderSimulation extends Simulation {
           .get("/daytrader/app").check(substring("Log in"))
           .headers(headers)
       ).pause(1 second)
+      .feed(feeder)
       .exec(
         http("perform login")
           .post("/daytrader/app")
-          .formParam("uid", "uid:0")
-          .formParam("passwd", "xxx")
+          .formParam("uid", "${user}")
+          .formParam("passwd", "${password}")
           .formParam("action", "login")
           .headers(headers)
       ).pause(1 seconds)
       .exec(
         http("Account Summary")
-          .get("/daytrader/app?action=account").check(substring("429 Oak St.") )
+          .get("/daytrader/app?action=account").check(substring("Account Information"))
           .headers(headers)
       ).pause(1 second)
       .exec(
