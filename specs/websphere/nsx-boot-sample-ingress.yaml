@@ -12,7 +12,7 @@ spec:
   rules:
     - http:
         paths:
-        - path: /ping.*
+        - path: /sample-war-proj.*
           backend:
             serviceName: boot-sample-ibm-webspher
             servicePort: 9080
