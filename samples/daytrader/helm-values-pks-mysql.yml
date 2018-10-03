@@ -3,9 +3,10 @@ image:
   tag: "0.0.15-mysql"
 
 ingress:
-  enabled: false
+  enabled: true
   path: "/daytrader"
   rewriteTarget: "/daytrader"
+#  host: "daytrader.pks.haas-131.pez.pivotal.io"
 
 # autoscaling:
 #   enabled: false
@@ -14,9 +15,9 @@ ingress:
 #   targetCPUUtilizationPercentage: 40
 
 logs:
-  persistTransactionLogs: true
+  persistTransactionLogs: false
 
-replicaCount: 3
+replicaCount: 5
 
 env:
   jvmArgs: "-Dapp.servername=dayt-db-mysql -Dapp.user=daytraderuser -Dapp.password=daytraderpassword -Dapp.database=daytraderdb"
@@ -25,7 +26,7 @@ ssl:
   enabled: false
 
 persistence:
-  storageClassName: vsphere-storage  
+  storageClassName: vsphere-storage
 
 service:
   type: ClusterIP

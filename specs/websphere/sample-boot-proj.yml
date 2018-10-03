@@ -3,7 +3,7 @@ image:
   tag: "0.0.8-SNAPSHOT"
 
 ingress:
-  enabled: false
+  enabled: true
   path: "/sample-war-proj"
   rewriteTarget: "/sample-war-proj"
 
@@ -17,7 +17,7 @@ microprofile:
 #   maxReplicas: 10
 #   targetCPUUtilizationPercentage: 40
 
-replicaCount: 3
+replicaCount: 2
 
 logs:
   persistTransactionLogs: false
