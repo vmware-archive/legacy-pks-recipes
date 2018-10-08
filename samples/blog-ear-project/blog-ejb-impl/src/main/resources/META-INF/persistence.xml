@@ -6,7 +6,7 @@
              version="2.1">
   <persistence-unit name="blog" transaction-type="JTA">
     <jta-data-source>jdbc/blog</jta-data-source>
-    <non-jta-data-source>jdbc/blog-non-jta</non-jta-data-source>
+    <!--<non-jta-data-source>jdbc/blog-non-jta</non-jta-data-source>-->
     <class>com.pivotalservices.sample.model.User</class>
     <class>com.pivotalservices.sample.model.Post</class>
     <class>com.pivotalservices.sample.model.Comment</class>

@@ -8,25 +8,16 @@ import com.pivotalservices.sample.model.User;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.logging.Logger;
 
-@Startup
 @DependsOn({"CommentDAO", "PostDAO", "UserDAO"})
 @Singleton
-@Lock(LockType.READ)
 public class SampleDataManagerImpl implements SampleDataManager {
 
     private static final Logger LOGGER = Logger.getLogger(SampleDataManager.class.getName());
-
-    @PersistenceContext(unitName = "blog")
-    private EntityManager em;
 
     @Inject
     private CommentDAO comments;
@@ -37,7 +28,6 @@ public class SampleDataManagerImpl implements SampleDataManager {
     @Inject
     private UserDAO users;
 
-    @PostConstruct
     public void createSomeData() {
         User tomee = createUserIfNotPresent("tomee", "tomee", "tomee@apache.org");
         User liberty = createUserIfNotPresent("liberty", "liberty", "liberty@liberty.org");
