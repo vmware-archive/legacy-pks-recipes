@@ -1,0 +1,5 @@
+controller:
+  replicaCount: 3
+
+defaultBackend:
+  replicaCount: 3
