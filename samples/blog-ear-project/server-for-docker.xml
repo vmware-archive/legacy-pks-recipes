@@ -22,7 +22,13 @@
         <jdbcDriver libraryRef="MySQLLib" />
         <properties databaseName="${app.database}" serverName="${app.servername}" portNumber="3306" user="${app.user}" password="${app.password}"/>
     </dataSource>
-    
+
+    <dataSource id="ds3" jndiName="jdbc/audit">
+        <jdbcDriver libraryRef="MySQLLib" />
+        <properties databaseName="${app.database2}" serverName="${app.servername2}" portNumber="3306" user="${app.user2}" password="${app.password2}"/>
+    </dataSource>
+
+
     <library id="MySQLLib">
         <file name="/config/libs/mysql-connector-java-8.0.12.jar"/>
     </library>
