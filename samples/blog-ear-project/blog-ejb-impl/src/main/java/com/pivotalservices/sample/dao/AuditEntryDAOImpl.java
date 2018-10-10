@@ -27,8 +27,5 @@ public class AuditEntryDAOImpl implements  AuditEntryDAO{
     @Override
     public AuditEntry createFailure(String message) {
         throw new RuntimeException("Rollback transaction!");
-        AuditEntry auditEntry = new AuditEntry("We should never have this transaction persisted.");
-        em.persist(auditEntry);
-        return auditEntry;
     }
 }
