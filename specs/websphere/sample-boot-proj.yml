@@ -17,7 +17,7 @@ microprofile:
 #   maxReplicas: 10
 #   targetCPUUtilizationPercentage: 40
 
-replicaCount: 2
+replicaCount: 4
 
 logs:
   persistTransactionLogs: false
@@ -29,3 +29,9 @@ service:
   type: ClusterIP
   port: 9080
   targetPort: 9080
+
+# resources:
+#   constraints:
+#     enabled: true
+#   requests:
+#     cpu: 200m
