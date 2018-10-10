@@ -8,3 +8,6 @@ mysqlPassword: blogpassword
 
 mysqlDatabase: blogdb
 imagePullPolicy: IfNotPresent
+
+persistence:
+  storageClass: "vsphere-storage"

@@ -11,11 +11,11 @@ microprofile:
   health: 
     enabled: true
 
-# autoscaling:
-#   enabled: true
-#   minReplicas: 1
-#   maxReplicas: 10
-#   targetCPUUtilizationPercentage: 40
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 40
 
 replicaCount: 2
 
@@ -29,3 +29,9 @@ service:
   type: ClusterIP
   port: 9080
   targetPort: 9080
+
+# resources:
+#   constraints:
+#     enabled: true
+#   requests:
+#     cpu: 200m

@@ -1,6 +1,6 @@
 image:
   repository: "bijukunjummen/daytrader"
-  tag: "0.0.15-mysql"
+  tag: "0.0.16-mysql"
 
 ingress:
   enabled: true
@@ -8,11 +8,11 @@ ingress:
   rewriteTarget: "/daytrader"
 #  host: "daytrader.pks.haas-131.pez.pivotal.io"
 
-# autoscaling:
-#   enabled: false
-#   minReplicas: 2
-#   maxReplicas: 10
-#   targetCPUUtilizationPercentage: 40
+autoscaling:
+   enabled: true
+   minReplicas: 2
+   maxReplicas: 10
+   targetCPUUtilizationPercentage: 40
 
 logs:
   persistTransactionLogs: false
@@ -32,3 +32,9 @@ service:
   type: ClusterIP
   port: 9080
   targetPort: 9080
+
+resources:
+  constraints:
+    enabled: true
+  requests:
+    cpu: 200m
