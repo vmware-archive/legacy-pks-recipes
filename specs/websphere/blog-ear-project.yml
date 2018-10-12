@@ -1,6 +1,6 @@
 image:
   repository: "wsvoorhees/blog-ear-project"
-  tag: "0.0.6-SNAPSHOT"
+  tag: "0.0.10-SNAPSHOT"
 
 # Does not work in NSX-T Environment as of NSX 2.1, PKS 1.X
 ingress:
@@ -15,10 +15,10 @@ ingress:
 #   targetCPUUtilizationPercentage: 40
 
 logs:
-  persistTransactionLogs: false
+  persistTransactionLogs: true
 
 replicaCount: 1
-  
+
 env:
   jvmArgs: "-Dapp.servername=wv-blog-db-mysql -Dapp.user=bloguser -Dapp.password=blogpassword -Dapp.database=blogdb -Dapp.servername2=wv-blog-db-2-mysql -Dapp.user2=bloguser -Dapp.password2=blogpassword -Dapp.database2=blogdb"
 
