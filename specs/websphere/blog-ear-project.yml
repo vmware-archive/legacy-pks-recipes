@@ -1,6 +1,6 @@
 image:
   repository: "bijukunjummen/blog-ear-project"
-  tag: "0.0.11-SNAPSHOT-TEMP"
+  tag: "0.0.14-TRANSACTION"
 
 # Does not work in NSX-T Environment as of NSX 2.1, PKS 1.X
 ingress:
@@ -15,12 +15,12 @@ ingress:
 #   targetCPUUtilizationPercentage: 40
 
 logs:
-  persistTransactionLogs: false
+  persistTransactionLogs: true
 
 replicaCount: 1
-  
+
 env:
-  jvmArgs: "-Dapp.servername=blog-db-mysql -Dapp.user=bloguser -Dapp.password=blogpassword -Dapp.database=blogdb"  
+  jvmArgs: "-Dcom.ibm.ws.Transaction.fvt=true -Dapp.servername=wv-blog-db-mysql -Dapp.user=bloguser -Dapp.password=blogpassword -Dapp.database=blogdb -Dapp.servername2=wv-blog-db-2-mysql -Dapp.user2=bloguser -Dapp.password2=blogpassword -Dapp.database2=blogdb"
 
 ssl:
   enabled: false

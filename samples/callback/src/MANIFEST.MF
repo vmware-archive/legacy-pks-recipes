@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1472648704694
+Build-Identifier: SNAPSHOT-Wed Aug 31 14:05:04 BST 2016
+Bundle-Copyright: The Program materials contained in this file are IBM
+  copyright materials. WLP Copyright International Business Machines C
+ orp. 1999, 2016 All Rights Reserved * Licensed Materials - Property o
+ f IBM US Government Users Restricted Rights - Use, duplication or dis
+ closure restricted by GSA ADP Schedule Contract with IBM Corp.
+Bundle-Description: XAFlowCallback classes for transactions FATs; vers
+ ion=1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TransactionsXAFlowCallback
+Bundle-SymbolicName: com.ibm.ws.Transaction.test.impl.XAFlowCallbackIm
+ pl
+Bundle-Vendor: IBM
+Bundle-Version: 1.0.14.201608311404
+Created-By: 1.7.0 (IBM Corporation)
+Export-Package: com.ibm.ws.Transaction.test.impl;uses:="com.ibm.ws.Tra
+ nsaction.test";version="1.0.14"
+Import-Package: com.ibm.ws.Transaction.test;version="[1.1,2)"
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version>=1.6))
+ "
+Tool: Bnd-3.1.0.201511301807
+WS-TraceGroup: Transaction

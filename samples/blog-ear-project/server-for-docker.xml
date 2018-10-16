@@ -4,6 +4,7 @@
     <!-- Enable features -->
     <featureManager>
         <feature>webProfile-8.0</feature>
+        <feature>xaflow-1.0</feature>
         <!--<feature>mpHealth-1.0</feature>        -->
     </featureManager>
 
@@ -12,17 +13,23 @@
                   httpPort="9080"
                   httpsPort="9443" />
     
-    <dataSource id="ds1" jndiName="jdbc/blog">
+    <dataSource id="ds1" jndiName="jdbc/blog" type="javax.sql.XADataSource">
         <jdbcDriver libraryRef="MySQLLib" />
         <properties databaseName="${app.database}" serverName="${app.servername}" portNumber="3306" user="${app.user}" password="${app.password}"/>
     </dataSource>
 
 
-    <dataSource id="ds2" jndiName="jdbc/blog-non-jta">
+    <dataSource id="ds2" jndiName="jdbc/blog-non-jta" type="javax.sql.XADataSource">
         <jdbcDriver libraryRef="MySQLLib" />
         <properties databaseName="${app.database}" serverName="${app.servername}" portNumber="3306" user="${app.user}" password="${app.password}"/>
     </dataSource>
-    
+
+    <dataSource id="ds3" jndiName="jdbc/audit" type="javax.sql.XADataSource">
+        <jdbcDriver libraryRef="MySQLLib" />
+        <properties databaseName="${app.database2}" serverName="${app.servername2}" portNumber="3306" user="${app.user2}" password="${app.password2}"/>
+    </dataSource>
+
+
     <library id="MySQLLib">
         <file name="/config/libs/mysql-connector-java-8.0.12.jar"/>
     </library>

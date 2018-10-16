@@ -1,7 +1,6 @@
 package com.pivotalservices.sample.dao;
 
-import com.pivotalservices.sample.dao.CommonDao;
-import com.pivotalservices.sample.dao.PostDAO;
+import com.pivotalservices.sample.model.AuditEntry;
 import com.pivotalservices.sample.model.Post;
 import com.pivotalservices.sample.model.User;
 
@@ -10,6 +9,7 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -23,12 +23,14 @@ public class PostDAOImpl implements PostDAO {
     @PersistenceContext(unitName = "blog")
     protected EntityManager em;
 
+
     public Post create(String title, String content, long userId) {
         User user = commonDao.find(User.class, userId);
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
         post.setUser(user);
+
         return commonDao.create(post);
     }
 
