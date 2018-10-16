@@ -1,9 +1,7 @@
 package com.pivotalservices.sample.web;
 
 public interface TransactionServiceEJB {
+    void performSucessfulTransaction();
 
-    public void performSucessfulTransaction();
-    public void performUnSucessfulTransaction();
-
-
-    }
+    void performUnSucessfulTransaction();
+}

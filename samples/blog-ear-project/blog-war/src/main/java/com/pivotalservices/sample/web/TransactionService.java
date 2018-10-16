@@ -13,23 +13,18 @@ public class TransactionService {
     @Inject
     TransactionServiceEJB transactionServiceEJB;
 
-    @Path("/Success")
+    @Path("/success")
     @GET
     public String performSuccessfulTransaction() {
         try {
             transactionServiceEJB.performSucessfulTransaction();
-
         } catch (Exception ex) {
             return "FAILURE";
         }
-
-
         return "SUCCESS";
-
-
     }
 
-    @Path("/Failure")
+    @Path("/failure")
     @GET
     public String performFailingTransaction() {
         try {

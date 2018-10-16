@@ -1,6 +1,6 @@
 image:
-  repository: "wsvoorhees/blog-ear-project"
-  tag: "0.0.10-TRANSACTION"
+  repository: "bijukunjummen/blog-ear-project"
+  tag: "0.0.14-TRANSACTION"
 
 # Does not work in NSX-T Environment as of NSX 2.1, PKS 1.X
 ingress:
