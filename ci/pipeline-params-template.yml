@@ -1,0 +1,4 @@
+git-branch: master
+auth_user: someuser
+auth_password: somepassword
+git-private-key: 

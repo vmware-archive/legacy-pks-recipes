@@ -1,0 +1,22 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: polinux/mkdocs
+    tag: 1.0.3
+
+inputs:
+- name: recipes-repo
+
+outputs:
+- name: recipes-docs
+
+params:
+  AUTH_USER:
+  AUTH_PASS:
+
+run:
+  path: recipes-repo/ci/tasks/build-docs.sh

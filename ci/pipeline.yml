@@ -1,0 +1,26 @@
+
+resources:
+- name: recipes-repo
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/legacy-pks-recipes.git
+    branch: ((git-branch))
+    private_key: ((git-private-key))
+    ignore_paths:
+    - samples/**
+    - specs/**
+    - slo-tests/**
+
+
+jobs:
+  - name: build-and-publish-docs
+    plan:
+      - aggregate:
+        - get: recipes-repo
+          resource: recipes-repo
+          trigger: true
+      - task: build-docs
+        file: recipes-repo/ci/tasks/build-docs.yml
+        params:
+          AUTH_USER: ((auth_user))
+          AUTH_PASS: ((auth_pass))
