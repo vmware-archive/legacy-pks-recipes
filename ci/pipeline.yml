@@ -1,4 +1,5 @@
-
+# fly -t wings set-pipeline -p app0-recipes-pipeline -c ci/pipeline.yml -l ci/pipeline-params.yml. 
+# Params file is available in the shared lastpass
 resources:
 - name: recipes-repo
   type: git
@@ -11,16 +12,31 @@ resources:
     - specs/**
     - slo-tests/**
 
+- name: pcf-prod
+  type: cf
+  source:
+    api: api.run.pivotal.io
+    organization: apptx
+    space: production
+    username: ((cf-username))
+    password: ((cf-password))
+    skip_cert_check: false
 
 jobs:
-  - name: build-and-publish-docs
-    plan:
-      - aggregate:
-        - get: recipes-repo
-          resource: recipes-repo
-          trigger: true
-      - task: build-docs
-        file: recipes-repo/ci/tasks/build-docs.yml
-        params:
-          AUTH_USER: ((auth_user))
-          AUTH_PASS: ((auth_pass))
+- name: build-and-publish-docs
+  plan:
+    - aggregate:
+      - get: recipes-repo
+        resource: recipes-repo
+        trigger: true
+    - task: build-docs
+      file: recipes-repo/ci/tasks/build-docs.yml
+      params:
+        AUTH_USER: ((auth_user))
+        AUTH_PASS: ((auth_pass))
+    - put: pcf-prod
+      params:
+        manifest: recipes-docs/manifest.yml
+        path: recipes-docs
+        current_app_name: app0cookbook
+        show_app_log: true
