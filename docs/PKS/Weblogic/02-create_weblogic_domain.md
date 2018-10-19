@@ -58,7 +58,7 @@ The final thing to do before we can create our operator is to create a kuberenet
 
 `kubectl create secret generic domain1-weblogic-credentials --from-literal=username=weblogic --from-literal=password=welcome1 --namespace weblogic-domain`
 
-`kubectl create secret docker-registry wsvoorhees-docker-creds --docker-username=wsvoorhees --docker-password=SECRET --docker-email=will.voorhees@gmail.com --namespace weblogic-domain`
+`kubectl create secret docker-registry my-docker-creds --docker-username=DOCKER_USERNAME --docker-password=SECRET --docker-email=DOCKER_EMAIL --namespace weblogic-domain`
 
 As with the operator setup you will need to accept the license from Oracle for Weblogic  at https://store.docker.com/images/oracle-weblogic-server-12c
 
@@ -66,9 +66,9 @@ As with the operator setup you will need to accept the license from Oracle for W
 # Modifying our weblogic domain creation input scripts.
 Next we're going to modify the parameters file that we use to initialize our weblogic domain. A sample version is provided in the kubernetes directory. I'd recommend copying the initial one so that way you easily refer to the defaults.
 
-`cp create-weblogic-domain-inputs.yaml create-weblogic-domain-inputs-voorhees.yaml`
+`cp create-weblogic-domain-inputs.yaml my-weblogic-domain-inputs.yaml`
 
-Then we need to change some values for the `create-weblogic-domain-inputs-voorhees.yaml` script. Uncomment the
+Then we need to change some values for the `my-weblogic-domain-inputs.yaml` script. Uncomment the
 
 `#domainUID: domain1` line, you can change the UID if you like, it just needs to be unique within your kuberenetes cluster.
 
@@ -100,7 +100,7 @@ I'll set these fields to true:
 
 
 assign the name of the docker credential you created earlier
-`weblogicImagePullSecretName: voorhees-docker-creds`
+`weblogicImagePullSecretName: my-docker-creds`
 
 `weblogicCredentialsSecretName: domain1-weblogic-credentials` 
 
@@ -114,6 +114,6 @@ Next we need to create an output directory that the creation script will use to 
 
 with these changes in place we're ready to create the operator, issue the command:
 
-`./create-weblogic-domain.sh -i create-weblogic-domain-inputs-voorhees.yaml -o ../operator-output`
+`./create-weblogic-domain.sh -i my-weblogic-domain-inputs.yaml -o ../operator-output`
 
 Due to the networking configuration of within pivotal, even though we've created a nodePort service for the admin web service of the weblogic domain, we're still unable to access it. To resolve this issue, you can create an additional service. Use the `create-weblogic-admin-service.yaml` file as a template and then issue the `kubectl create -f create-weblogic-admin-service.yaml` command.

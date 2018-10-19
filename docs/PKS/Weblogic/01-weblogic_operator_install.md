@@ -72,13 +72,13 @@ You will need to create a namespace for the operator to be initialized into:
 
 Create a kubernetes secret that contains your dockerhub credentials, so that kuberentes will be able to fetch the image you uploaded:
 
-`kubectl create secret docker-registry wsvoorhees-docker-creds --docker-username=wsvoorhees --docker-password=SECRET --docker-email=will.voorhees@gmail.com --namespace weblogic-operator`
+`kubectl create secret docker-registry my-docker-creds --docker-username=DOCKER_USERNAME --docker-password=SECRET --docker-email=DOCKER_EMAIL --namespace weblogic-operator`
 
 
 Under the `kubernetes` sub-directory of the `weblogic-kubernetes-operator` project, copy the operator inputs file for customization.
 
 ```
- cp create-weblogic-operator-inputs.yaml create-weblogic-operator-inputs-voorhees.yaml
+ cp create-weblogic-operator-inputs.yaml my-weblogic-operator-inputs.yaml
 ```
 
 Change the following: 
@@ -86,7 +86,7 @@ Change the following:
 ```yaml
 weblogicOperatorImage: oracle/weblogic-kubernetes-operator:1.0
 targetNamespaces: weblogic-domain,default
-weblogicOperatorImagePullSecretName: wsvoorhees-docker-creds
+weblogicOperatorImagePullSecretName: my-docker-creds
 ```
 
 Create a folder for the output of the operator installation command to be captured.
@@ -94,7 +94,7 @@ Create a folder for the output of the operator installation command to be captur
 
 ### Installing and Verifying the Operator
 Then we finally can create the operator in our cluster.
-`./create-weblogic-operator.sh -i create-weblogic-operator-inputs-voorhees.yaml -o create-operator-output/`
+`./create-weblogic-operator.sh -i my-weblogic-operator-inputs.yaml -o create-operator-output/`
 
 You can verify that the operator has created the requisite resources within weblogic with this command
 `kubectl -n weblogic-operator get all`
